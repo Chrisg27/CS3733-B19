@@ -1,21 +1,21 @@
 package http;
 
-public class CreatePlaylistRequest {
+public class PlaylistRequest {
 
 	public String name;
 	
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
 	
-	public CreatePlaylistRequest() {
+	public PlaylistRequest() {
 	}
 	
-	public CreatePlaylistRequest(String name) {
+	public PlaylistRequest(String name) {
 		this.name = name;
 	}
 	
 	public String toString() {
-		return "CreatePlaylist(" + name + ")";
+		return "Playlist(" + name + ")";
 	}
 	
 }

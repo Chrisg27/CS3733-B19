@@ -7,7 +7,15 @@ public class VideoClip {
 	private String episode;
 	private String speaker;
 	private double duration;
-	private boolean isMarked;
+	private boolean isMarked;	
+	
+	/**
+	 * Creates a new VideoClip
+	 */
+	
+	VideoClip(){
+		
+	}
 	
 	/**
 	 * Creates a new VideoClip
@@ -72,5 +80,20 @@ public class VideoClip {
 	 */
 	public boolean isMarked() {
 		return isMarked;
+	}
+	
+	/**
+	 * Marks a video clip for private view only
+	 */
+	
+	public void mark() {
+		
+	}
+	
+	/**
+	 * Unmarks a video clip
+	 */
+	public void unmark() {
+		
 	}
 }

@@ -1,12 +1,21 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Playlist {
 
 	private String name;
-	private ArrayList<VideoClip> videos = new ArrayList<VideoClip>();
+	private HashMap<String, VideoClip> videos = new HashMap<String, VideoClip>();
 	private double duration;
+	
+	/**
+	 * Creates a new Playlist
+	 */
+	Playlist() {
+		
+	}
 	
 	/**
 	 * Creates a new Playlist
@@ -30,6 +39,30 @@ public class Playlist {
 	 */
 	public double getDuration() {
 		return duration;
+	}
+	
+	/**
+	 * Appends a video to a Playlist
+	 * @param video
+	 */
+	public void addVideo(VideoClip video) {
+		
+	}
+	
+	/**
+	 * Removes a video from a Playlist
+	 * @param video
+	 */
+	public void removeVideo(VideoClip video) {
+		
+	}	
+	
+	/**
+	 * Returns video iterator
+	 * @return iterator
+	 */
+	public Iterator<VideoClip> getVideoIterator() {
+		return videos.values().iterator();
 	}
 	
 }

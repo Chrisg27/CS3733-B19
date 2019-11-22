@@ -4,16 +4,13 @@ public class VideoClip {
 	
 	private String clipURL;
 	private String associatedText;
-	private String episode;
 	private String speaker;
-	private double duration;
 	private boolean isMarked;	
 	
 	/**
 	 * Creates a new VideoClip
 	 */
-	
-	VideoClip(){
+	public VideoClip(){
 		
 	}
 	
@@ -21,17 +18,13 @@ public class VideoClip {
 	 * Creates a new VideoClip
 	 * @param clipURL the URL of the clips location in a S3 bucket
 	 * @param associatedText the words spoken in the clip
-	 * @param episode the episode the clip appears in
 	 * @param speaker the character who speaks the line
-	 * @param duration the length of the clip
 	 * @param isMarked whether or not it has been marked for private access only
 	 */
-	public VideoClip(String clipURL, String associatedText, String episode, String speaker, double duration, boolean isMarked) {
+	public VideoClip(String clipURL, String associatedText, String speaker, boolean isMarked) {
 		this.clipURL = clipURL;
 		this.associatedText = associatedText;
-		this.episode = episode;
 		this.speaker = speaker;
-		this.duration = duration;
 		this.isMarked = isMarked;
 	}
 	
@@ -51,27 +44,11 @@ public class VideoClip {
 	}
 
 	/**
-	 * Returns the episode of the clip
-	 * @return the episode of the clip
-	 */
-	public String getEpisode() {
-		return episode;
-	}
-
-	/**
 	 * Returns the speaker of the clip
 	 * @return the speaker of the clip
 	 */
 	public String getSpeaker() {
 		return speaker;
-	}
-
-	/**
-	 * Returns the duration of the clip
-	 * @return the duration of the clip
-	 */
-	public double getDuration() {
-		return duration;
 	}
 
 	/**
@@ -87,13 +64,33 @@ public class VideoClip {
 	 */
 	
 	public void mark() {
-		
+		isMarked = true;
 	}
 	
 	/**
 	 * Unmarks a video clip
 	 */
 	public void unmark() {
+		isMarked = false;
+	}
+	
+	/**
+	 * Returns whether or not an object is equal to the current VideoClip object
+	 * @param o the object to compare it to
+	 * @return true if they are equal
+	 */
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof VideoClip)) return false;
+		VideoClip videoClip = (VideoClip) o;
 		
+		if(this.getClipURL().equals(videoClip.getClipURL()) &&
+	    			this.getAssociatedText().equals(videoClip.getAssociatedText()) &&
+	    			this.getSpeaker().equals(videoClip.getSpeaker()) &&
+	    			this.isMarked() == videoClip.isMarked()) return true;
+		
+		else return false;
 	}
 }

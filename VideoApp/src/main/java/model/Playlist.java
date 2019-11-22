@@ -1,19 +1,18 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 public class Playlist {
 
 	private String name;
+	private int numberOfClips;
 	private HashMap<String, VideoClip> videos = new HashMap<String, VideoClip>();
-	private double duration;
 	
 	/**
 	 * Creates a new Playlist
 	 */
-	Playlist() {
+	public Playlist() {
 		
 	}
 	
@@ -21,9 +20,18 @@ public class Playlist {
 	 * Creates a new Playlist
 	 * @param name the name of the playlist
 	 * @param videos the videos in the playlist
-	 * @param duration the total time of all the clips in the playlist
 	 */
-	public Playlist(String name, VideoClip[] videos, double duration) {}
+	public Playlist(String name, VideoClip[] videos) {
+		this.name = name;
+		int counter = 0;
+		
+		for(VideoClip clip : videos) {
+			counter++;
+			this.videos.put(clip.getClipURL(), clip);
+		}
+		
+		this.numberOfClips = counter;
+	}
 
 	/**
 	 * Returns the name of the Playlist
@@ -32,13 +40,13 @@ public class Playlist {
 	public String getName() {
 		return name;
 	}
-
+	
 	/**
-	 * Returns the duration of the Playlist
-	 * @return the duration of the PlayList
+	 * Returns the numberOfClips in the Playlist
+	 * @return the numberOfClips in the Playlist
 	 */
-	public double getDuration() {
-		return duration;
+	public int getNumberOfClips() {
+		return numberOfClips;
 	}
 	
 	/**
@@ -46,16 +54,27 @@ public class Playlist {
 	 * @param video
 	 */
 	public void addVideo(VideoClip video) {
-		
+		videos.put(video.getClipURL(), video);
+		numberOfClips++;
 	}
 	
 	/**
 	 * Removes a video from a Playlist
 	 * @param video
 	 */
-	public void removeVideo(VideoClip video) {
-		
+	public void removeVideo(String clipURL) {
+		videos.remove(clipURL);
+		numberOfClips--;
 	}	
+	
+	/**
+	 * Returns a VideoClip
+	 * @param clipURL the clipURL of the VideoClip to return
+	 * @return a VideoClip
+	 */
+	public VideoClip getVideoClip(String clipURL) {
+		return videos.get(clipURL);
+	}
 	
 	/**
 	 * Returns video iterator
@@ -63,6 +82,19 @@ public class Playlist {
 	 */
 	public Iterator<VideoClip> getVideoIterator() {
 		return videos.values().iterator();
+	}
+	
+	/**
+	 * Returns whether an object is equal to the current playlist
+	 * @param o the object to compare to
+	 * @return true if the two objects are equal
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof Playlist)) return false;
+		Playlist playlist = (Playlist) o;
+		return (this.name.equals(playlist.name) && this.videos.equals(playlist.videos));
 	}
 	
 }

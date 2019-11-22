@@ -14,7 +14,7 @@ public class Library {
 	/**
 	 * Creates a new Library
 	 */
-	Library() {
+	public Library() {
 
 	}
 	
@@ -25,7 +25,7 @@ public class Library {
 	 * @param videos the videoclips in the library
 	 * @param remoteSites the remotesites in the library
 	 */
-	Library(String name){
+	public Library(String name){
 
 	}
 

@@ -1,18 +1,13 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
 public class RemoteSite {
 
 	private String siteURL;
-	private HashMap<String, VideoClip> videos = new HashMap<String, VideoClip>();
 	
 	/**
 	 * Creates a new RemoteSite
 	 */
-	RemoteSite() {
+	public RemoteSite() {
 		
 	}
 	
@@ -20,16 +15,9 @@ public class RemoteSite {
 	 * Creates a new RemoteSite
 	 * @param URL the URL of the site
 	 */
-	RemoteSite(String URL){
-		
+	public RemoteSite(String URL){
+		this.siteURL = URL;
 	}
-	
-	/**
-	 * Creates a new RemoteSite
-	 * @param siteURL the URL of the site
-	 * @param videos the videos in the remote site
-	 */
-	public RemoteSite(String siteURL, VideoClip[] videos) {}
 
 	/**
 	 * Returns the URL of the RemoteSite
@@ -40,10 +28,15 @@ public class RemoteSite {
 	}	
 	
 	/**
-	 * Returns video iterator
-	 * @return iterator
+	 * Returns whether or not an object is equal to the current RemoteSite
+	 * @param o the object to compare to
+	 * @return true if they are equal
 	 */
-	public Iterator<VideoClip> getVideoIterator() {
-		return videos.values().iterator();
+	@Override
+	public boolean equals(Object o) {
+		if(o == this) return true;
+		if(!(o instanceof RemoteSite)) return false;
+		RemoteSite remoteSite = (RemoteSite) o;
+		return (this.siteURL.equals(remoteSite.siteURL));
 	}
 }

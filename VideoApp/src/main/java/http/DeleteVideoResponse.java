@@ -1,18 +1,21 @@
 package http;
 
-public class VideoResponse {
+public class DeleteVideoResponse {
 
 	public final String response;
 	public final int httpCode;
+	public final String error;
 	
-	public VideoResponse(String s, int code) {
+	public DeleteVideoResponse(String s, int code) {
 		this.response = s;
 		this.httpCode= code;
+		this.error = "";
 	}
 	
-	public VideoResponse(String s) {
+	public DeleteVideoResponse(String s, int code, String error) {
 		this.response = s;
 		this.httpCode = 200;
+		this.error = error;
 	}
 	
 	public String toString() {

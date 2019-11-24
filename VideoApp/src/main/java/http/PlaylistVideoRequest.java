@@ -3,24 +3,24 @@ package http;
 public class PlaylistVideoRequest {
 
 	public String playlist;
-	public String video;
+	public String videoURL;
 	
 	public String getPlaylist() { return playlist; }
 	public void setPlaylist(String playlist) { this.playlist = playlist; }
 	
-	public String getVideo() { return video; }
-	public void setVideo(String video) { this.video = video; }
+	public String getVideoURL() { return videoURL; }
+	public void setVideoURL(String video) { this.videoURL = video; }
 	
 	public PlaylistVideoRequest() {
 	}
 	
 	public PlaylistVideoRequest(String playlist, String video) {
 		this.playlist = playlist;
-		this.video = video;
+		this.videoURL = video;
 	}
 	
 	public String toString() {
-		return "Playlist(" + playlist + ", " + video + ")";
+		return "Playlist(" + playlist + ", " + videoURL + ")";
 	}
 	
 }

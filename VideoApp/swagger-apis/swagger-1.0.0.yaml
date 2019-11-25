@@ -1,0 +1,449 @@
+swagger: "2.0"
+info:
+  description: CS3733_Project_API
+  version: 1.0.0
+  title: CS3733_Project_API
+  contact:
+    email: vrmelican@wpi.edu
+  license:  
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: virtserver.swaggerhub.com
+basePath: /vrmelican/CS3733_Princess_API/1.0.0
+tags:
+- name: administrators
+  description: operations available to administrators
+- name: participants
+  description: operations available to regular participants
+schemes:
+- https
+paths:
+  /videos:
+    get:
+      tags:
+      - administrators
+      - participants
+      summary: requests list of local videos
+      description: returns list of local videos in library
+      operationId: getLocalVideos
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: list of videos returned
+        409:
+          description: list does not exist
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: request to upload video
+      description: request to upload a local video to the library
+      operationId: uploadVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: UploadVideoRequest
+        description: upload a local video to the library
+        required: true
+        schema:
+          $ref: '#/definitions/UploadVideoRequest'
+      responses:
+        200:
+          description: local video uploaded
+        400:
+          description: invalid input, object invalid
+        409:
+          description: video already uploaded
+  /video:
+    get:
+      tags:
+      - administrators
+      - participants
+      summary: requests a list of public local videos;
+      description: returns a list of public local videos in library
+      operationId: getPublicLocalVideos
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: list of videos returned
+        400:
+          description: list does not exist
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: request to delete a local video
+      description: request to delete a local video by identifier
+      operationId: deleteVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: DeleteVideoRequest
+        description: delete a local video from library
+        required: true
+        schema:
+          $ref: '#/definitions/DeleteVideoRequest'
+      responses:
+        200:
+          description: video successfully deleted
+        400:
+          description: invalid input, object invalid
+        409:
+          description: unable to delete video
+  /searchVideos:
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: search videos
+      description: search for a certain speaker or dialogue in all local and remote videos
+      operationId: searchVideos
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: SearchVideoRequest
+        description: search all local and remote videos
+        required: false
+        schema:
+          $ref: '#/definitions/SearchVideoRequest'
+      responses:
+        200:
+          description: search complete
+        400:
+          description: invalid input, object invalid
+  /playlists:
+    get:
+      tags:
+      - administrators
+      - participants
+      summary: requests list of all playlists
+      description: returns list of all playlists in library
+      operationId: getPlaylists
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        200:
+          description: list of playlists returned
+        400:
+          description: list does not exist
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: requests to create new playlist
+      description: requests to create a new playlist given a name
+      operationId: createPlaylist
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: PlaylistRequest
+        description: create a playlist
+        required: true
+        schema:
+          $ref: '#/definitions/PlaylistRequest'
+      responses:
+        200:
+          description: playlist created
+        400: 
+          description: invalid input, object invalid
+        409:
+          description: playlist already exists
+  /playlist:
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: requests to delete a playlist
+      description: requests to delete a playlist by name
+      operationId: deletePlaylist
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: PlaylistRequest
+        description: delete a playlist
+        required: true
+        schema:
+          $ref: '#/definitions/PlaylistRequest'
+      responses:
+        200:
+          description: playlist deleted
+        400:
+          description: invalid input, object invalid
+        409:
+          description: unable to delete video
+  /playlistVideos:
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: requests to append a video to a playlist
+      description: requests to append a video to a playlist
+      operationId: appendVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: PlayilstVideoRequest
+        description: append a video to a playlist
+        required: true
+        schema:
+          $ref: '#/definitions/PlaylistVideoRequest'
+      responses:
+        200:
+          description: video appended to playlist
+        400:
+          description: invalid input, object invalid
+        409:
+          description: unable to append video
+  /playlistVideo:
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: requests to remove video from playlist
+      description: requests to remove a video from a playlist by name
+      operationId: removeVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: PlaylistVideoRequest
+        description: remove a video from a playlist
+        required: true
+        schema:
+          $ref: '#/definitions/PlaylistVideoRequest'
+      responses:
+        200:
+          description: video removed from playlist
+        400:
+          description: invalid input, object invalid
+        409:
+          description: unable to remove video
+  /listPlaylistVideo:
+    post:
+      tags:
+      - administrators
+      - participants
+      summary: lists videos in a playlist
+      description: lists videos in a playlist given playlist name
+      operationId: listPlaylistVideos
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: PlaylistRequest
+        description: list videos in playlist
+        required: true
+        schema:
+          $ref: '#/definitions/PlaylistRequest'
+      responses:
+        200:
+          description: list of playlist videos returned
+        400:
+          description: invalid input, object invalid
+        409:
+          description: list does not exist
+  /markVideo:
+    post:
+      tags:
+      - administrators
+      summary: requests to mark a video
+      description: requests to mark a local video so it is no longer available remotely
+      operationId: markVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: MarkVideoRequest
+        description: marks a local video so it is no longer available remotely
+        required: true
+        schema:
+          $ref: '#/definitions/MarkVideoRequest'
+      responses:
+        200:
+          description: video marked
+        400:
+          description: invalid input, object invalid
+        409:
+          description: video already marked
+  /unmarkVideo:
+    post:
+      tags:
+      - administrators
+      summary: requests to unmark a video
+      description: requests to unmark a local video so it is available remotely again
+      operationId: unmarkVideo
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: MarkVideoRequest
+        description: unmarks a local video so it is available remotely again
+        required: true
+        schema:
+          $ref: '#/definitions/MarkVideoRequest'
+      responses:
+        200:
+          description: video unmarked
+        400:
+          description: invalid input, object invalid
+        409:
+          description: video already unmarked
+  /registerSite:
+    get:
+      tags: 
+      - administrators
+      - participants
+      summary: requests list of remote sites
+      description: returns list of remote sites
+      operationId: listRemoteSites
+      parameters: []
+      responses:
+        200:
+          description: list of remote sites returned
+        409:
+          description: list does not exist
+    post:
+      tags:
+      - administrators
+      summary: register remote site
+      description: register a remote site so that it can provide remote videos
+      operationId: registerSite
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: RegisterSiteRequest
+        description: register a remote site
+        required: true
+        schema:
+         $ref: '#/definitions/RegisterSiteRequest'
+      responses:
+        200:
+          description: remote site registered
+        400:
+          description: invalid input, object invalid
+        409:
+          description: site does not exist
+  /unregisterSite:
+    post:
+      tags:
+      - administrators
+      summary: unregister site
+      description: unregister a site so it can no longer provide remote videos
+      operationId: unregisterSite
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: RegisterSiteRequest
+        description: unregister a site
+        required: true
+        schema:
+          $ref: '#/definitions/RegisterSiteRequest'
+      responses:
+        200:
+          description: site unregistered
+        400:
+          description: invalid input, object invalid
+        409:
+          description: site not registered
+definitions:
+  UploadVideoRequest:
+    type: object
+    required:
+    - base64EncodedVideo
+    - speaker
+    - dialogue
+    properties:
+      base64EncodedVideo:
+        type: string
+      speaker:
+        type: string
+      dialogue:
+        type: string
+  DeleteVideoRequest:
+    type: object
+    required:
+    - url
+    properties:
+      url:  
+        type: string
+  SearchVideoRequest:
+    type: object
+    required:
+    - searchCharacter
+    - searchDialogue
+    properties:
+      searchCharacter:
+        type: string
+      searchDialogue:
+        type: string
+  PlaylistRequest:
+    type: object
+    required:
+    - playlistName
+    properties:
+      playlistName:
+        type: string
+  PlaylistVideoRequest:
+    type: object
+    required:
+    - playlistName
+    - videoUrl
+    properties:
+      playlistName:
+        type: string
+      videoUrl:
+        type: string
+  MarkVideoRequest:
+    type: object
+    required:
+    - url
+    - mark
+    properties:
+      url:
+        type: string
+      mark:
+        type: boolean
+  RegisterSiteRequest:
+    type: object
+    required:
+    - url
+    properties:
+      url:
+        type: string

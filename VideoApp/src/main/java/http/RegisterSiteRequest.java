@@ -1,21 +1,21 @@
 package http;
 
-public class DeleteVideoRequest {
+public class RegisterSiteRequest {
 
 	public String url;
 	
 	public String getURL() { return url; }
 	public void setURL(String url) { this.url = url; }
 	
-	public DeleteVideoRequest() {
+	public RegisterSiteRequest() {
 	}
 	
-	public DeleteVideoRequest(String url) {
+	public RegisterSiteRequest(String url) {
 		this.url = url;
 	}
 	
 	public String toString() {
-		return "DeleteVideo(" + url + ")";
+		return "RegisterSite(" + url + ")";
 	}
 	
 }

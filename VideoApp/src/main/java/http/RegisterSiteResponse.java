@@ -1,20 +1,20 @@
 package http;
 
-public class PlaylistVideoResponse {
+public class RegisterSiteResponse {
 
 	public final String response;
 	public final int httpCode;
 	public final String error;
 	
-	public PlaylistVideoResponse(String s, int code) {
+	public RegisterSiteResponse(String s, int code) {
 		this.response = s;
 		this.httpCode= code;
 		this.error = "";
 	}
 	
-	public PlaylistVideoResponse(String s, int code, String error) {
+	public RegisterSiteResponse(String s, int code, String error) {
 		this.response = s;
-		this.httpCode = code;
+		this.httpCode = 200;
 		this.error = error;
 	}
 	

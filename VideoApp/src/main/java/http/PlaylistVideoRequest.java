@@ -20,7 +20,7 @@ public class PlaylistVideoRequest {
 	}
 	
 	public String toString() {
-		return "Playlist(" + playlist + ", " + videoURL + ")";
+		return "PlaylistVideo(" + playlist + ", " + videoURL + ")";
 	}
 	
 }

@@ -4,7 +4,7 @@
  *    GET getPlaylistsURL
  *    RESPONSE  list of [name, list of videos]
  */
-function refreshConstantsList() {
+function refreshPlaylistTable() {
    var xhr = new XMLHttpRequest();
    xhr.open("GET", getPlaylistsURL, true);
    xhr.send();
@@ -25,7 +25,7 @@ function refreshConstantsList() {
 /**
  * Respond to server JSON object.
  *
- * Replace the contents of 'constantList' with a <br>-separated list of name,value pairs.
+ * Rebuild table based on the contents of the library.
  */
 function processListResponse(result) {
   console.log("res:" + result);
@@ -41,6 +41,7 @@ function processListResponse(result) {
     var cname = constantJson["name"];
     var cval = constantJson["value"];
     var sysvar = constantJson["system"];
+    
     if (sysvar) {
     	output = output + "<div id=\"const" + cname + "\"><b>" + cname + ":</b> = " + cval + "<br></div>";
     } else {
@@ -51,3 +52,45 @@ function processListResponse(result) {
   // Update computation result
   constList.innerHTML = output;
 }
+
+  function createPlaylist(){
+	//getting the user's input
+	var input = document.getElementById("NewPlaylistName")
+	console.log(input)
+	//getting the actual string that the user input
+	var newPlaylistName = input.value
+	console.log(newPlaylistName)
+	//if the string put in is not empty, add the name to the table
+	if(newPlaylistName !== ""){
+		currentLists.push(newPlaylistName)
+		
+		/* write to database here */
+		
+		input.value = ""
+		drawPlaylistTable(currentLists)
+	}
+	else {
+		//user didn't put anything into the text box to name their playlist
+		window.alert("Please enter a valid name.")
+	}
+	
+	/*
+	write to db here
+	*/
+	}
+  
+  function drawPlaylistTable(objArray){
+		console.log(objArray)
+		var html = "<thead><td><b>Select</b></td><td><b>Name</b></td></thead>"
+	objArray.forEach(function(cur, index){
+		html += "<tr id="+index+">"
+		html += "<td><input type=\"checkbox\" id="+index+"></td>"
+		html += "<td>" + currentLists[index] + "</td>"
+		html += "</tr>"
+	})
+
+	var existingTable = document.getElementById("PlaylistTable")
+		existingTable.innerHTML = html
+	}
+  
+  

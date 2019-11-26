@@ -1,0 +1,76 @@
+table, td, th {  
+  border: 0px solid #ddd;
+  text-align: left;
+  padding: 15px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.buttons {
+  display: flex;
+  /*justify-content: space-around;*/
+  align-items: stretch;
+  flex-direction: row;
+  }
+
+.button {
+  background-color: #555;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #9FC4F2;
+  color: white;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  font-family:cursive;
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #9FC4F2;
+  color: white;
+  font-size: 20.5px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #679FE3;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}

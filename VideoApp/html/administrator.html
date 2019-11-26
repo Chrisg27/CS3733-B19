@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/all.css">
+  <script src="js/all.js"></script>
+  </head>
+<body>    
+  <h1><font face="Comic Sans MS">Princess Administrator - CS 3733</h1>
+	
+  <hr/>
+
+  <h2><font face="Comic Sans MS">My Videos</font></h2>
+
+  <div class="buttons"> 
+    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Upload New Video </font> </button>
+    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Video </font> </button>
+    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Mark Video </font> </button>
+    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Unmark Video </font> </button>
+    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Video to: </font> </button>
+    <select name="PlaylistSelect">
+      <!-- dynamically filling! -->
+    </select>
+  </div>
+  
+  <div class=content name='videos'>
+  <font face="Comic Sans MS">
+    <table class="videos" id="VideoTable"> 
+      <tr>
+        <th>Select</th>
+        <th>Video</th>
+        <th>Speaker</th>
+        <th>Associated Text</th>
+        <th>Marked?</th>
+      </tr> 
+    </table>
+  </font>
+  </div>
+<!--..........................................................-->
+   <hr/>
+   <h2><font face="Comic Sans MS">Playlists</font></h2>
+<div class="buttons"> 
+  <button type="button" class="button"onclick="createPlaylist()"><font face = "Comic Sans MS"> New Playlist </font> </button>
+  <input type="text" placeholder="Name Your Playlist..." id="NewPlaylistName">
+  <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Open Playlist </font> </button>
+  <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Playlist </font> </button>
+</div>
+
+<div class=content name='playlists'>
+  <font face="Comic Sans MS">
+    <table class="playlist" id="PlaylistTable">
+      <tr>
+          <th>Select</th>
+          <th>Name</th>
+      </tr>
+    </table>
+</font>
+</div>
+
+<!--..........................................................-->
+<hr/>
+<h2><font face="Comic Sans MS">Search </font></h2>
+<select name="SearchFor">
+      <option value="Speaker">Speaker</option> <!-- have to be dynamically filled -->
+      <option value="AssocText">Associated Text</option>
+</select>
+<!-- Load icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <!-- The form -->
+<form class="example">
+  <input type="text" placeholder="Search..." name="search">
+  <button type="submit" onclick="notDone()"><i class="fa fa-search"></i></button>
+</form>
+
+<br></br>
+
+<div class="buttons">
+      <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Video to: </font></button> 
+      <select name="PlaylistSelect">
+        <option value="asdfs">Playlist 1</option>
+        <option value="asfdh">Playlist 2</option>
+      </select>
+</div>
+    <div class=content name='search'>
+            <font face="Comic Sans MS">
+      <table class="search" id="SearchTable">
+        <tr>
+          <th>Select</th>
+          <th>Video</th>
+          <th>Speaker</th>
+          <th>Associated Text</th>
+        </tr>
+      </table>
+      </font>
+    </div>
+<!--..........................................................-->
+<hr/>
+ <h2><font face="Comic Sans MS">Remote Sites</font></h2>
+
+ <div class="buttons">
+      <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Site </font></button>
+      <input type="text" placeholder="Remote Site URL" name="siteURL">
+      <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Site </font></button>
+    </div>
+
+    <div class=content>
+      <font face="Comic Sans MS">
+        <table class="playlist">
+        <tr>
+          <th>Select</th>
+          <th>URL</th>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>http://remotesite1.com</td>
+        </tr>
+      </table>
+      </font>
+    </div>
+
+
+</body>
+</html>

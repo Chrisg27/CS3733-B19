@@ -49,5 +49,20 @@ function processListResponse(result) {
   }
 
   // Update computation result
-  constList.innerHTML = output;
+  constList.innerHTML = output; 
+  
+}
+
+function drawVideoTable(objArray){
+	console.log(objArray)
+	var html = "<thead><td><b>Select</b></td><td><b>Name</b></td><td><b>Speaker</b></td><td><b>AssociatedText</b></td><td><b>Marked?</b></td></thead>"
+objArray.forEach(function(cur, index){
+	html += "<tr id="+index+">"
+	html += "<td><input type=\"checkbox\" id="+index+"></td>"
+	html += "<td>" + currentLists[index] + "</td>"
+	html += "</tr>"
+})
+
+var existingTable = document.getElementById("PlaylistTable")
+	existingTable.innerHTML = html
 }

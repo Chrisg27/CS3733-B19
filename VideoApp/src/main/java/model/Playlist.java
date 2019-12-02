@@ -19,6 +19,14 @@ public class Playlist {
 	/**
 	 * Creates a new Playlist
 	 * @param name the name of the playlist
+	 */
+	public Playlist(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Creates a new Playlist
+	 * @param name the name of the playlist
 	 * @param videos the videos in the playlist
 	 */
 	public Playlist(String name, VideoClip[] videos) {

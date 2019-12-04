@@ -6,13 +6,22 @@
   </head>
 <body>    
   <h1><font face="Comic Sans MS">Princess Administrator - CS 3733</h1>
-	
+  
   <hr/>
 
   <h2><font face="Comic Sans MS">My Videos</font></h2>
 
   <div class="buttons"> 
+    <input type="file" id="videoFile">
+    </br>
+  </div>
+  <div class="buttons">
+    <input type="text" id="videoSpeaker" placeholder="Speaker">
+    <input type="text" id="videoAssociatedText" placeholder="Associated Text">
     <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Upload New Video </font> </button>
+    </br>
+  </div>
+  <div class="buttons">
     <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Video </font> </button>
     <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Mark Video </font> </button>
     <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Unmark Video </font> </button>
@@ -59,19 +68,12 @@
 <!--..........................................................-->
 <hr/>
 <h2><font face="Comic Sans MS">Search </font></h2>
-<select name="SearchFor">
-      <option value="Speaker">Speaker</option> <!-- have to be dynamically filled -->
-      <option value="AssocText">Associated Text</option>
-</select>
-<!-- Load icon library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-      <!-- The form -->
-<form class="example">
-  <input type="text" placeholder="Search..." name="search">
-  <button type="submit" onclick="notDone()"><i class="fa fa-search"></i></button>
-</form>
 
-<br></br>
+<div class="buttons">
+<input type="text" placeholder="Speaker" name="SpeakerSearch">
+<input type="text" placeholder="Associated Text" name="TextSearch">
+<button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Search </font></button>
+</div>
 
 <div class="buttons">
       <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Video to: </font></button> 

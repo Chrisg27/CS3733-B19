@@ -1,25 +1,31 @@
 package http;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.VideoClip;
+
 public class SearchVideoResponse {
 
-	public final String response;
+	public final List<VideoClip> list;
 	public final int httpCode;
 	public final String error;
 	
-	public SearchVideoResponse(String s, int code) {
-		this.response = s;
+	public SearchVideoResponse(List<VideoClip> list, int code) {
+		this.list = list;
 		this.httpCode= code;
 		this.error = "";
 	}
 	
-	public SearchVideoResponse(String s, int code, String error) {
-		this.response = s;
+	public SearchVideoResponse(int code, String error) {
+		list = new ArrayList<VideoClip>();
 		this.httpCode = code;
 		this.error = error;
 	}
 	
 	public String toString() {
-		return "Response(" + response + ")";
+		if (list == null) { return "NoMatches"; }
+		return "SearchVideos(" + list.size() + ")";
 	}
 	
 }

@@ -1,6 +1,7 @@
 package http;
 
 public class UploadVideoRequest {
+	public String name;
 	public String speaker;
 	public String dialogue;
 	public String base64EncodedVideo;
@@ -17,13 +18,14 @@ public class UploadVideoRequest {
 	public UploadVideoRequest() {
 	}
 	
-	public UploadVideoRequest (String s, String d, String encoding) {
+	public UploadVideoRequest (String n, String s, String d, String encoding) {
+		this.name = n;
 		this.speaker = s;
 		this.dialogue = d;
 		this.base64EncodedVideo = encoding;
 	}
 	
 	public String toString() {
-		return "UploadVideo(" + speaker + "," + dialogue + "," + base64EncodedVideo + ")";
+		return "UploadVideo(" + name + ", " + speaker + ", " + dialogue + ", " + base64EncodedVideo + ")";
 	}
 }

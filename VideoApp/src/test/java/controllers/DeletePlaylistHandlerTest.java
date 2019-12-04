@@ -8,36 +8,28 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
+import http.PlaylistRequest;
+import http.PlaylistResponse;
+
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class DeletePlaylistHandlerTest {
+public class DeletePlaylistHandlerTest extends LambdaTest {
 
-    private static Object input;
-
-    @BeforeClass
-    public static void createInput() throws IOException {
-        // TODO: set up your sample input object here.
-        input = null;
-    }
-
-    private Context createContext() {
-        TestContext ctx = new TestContext();
-
-        // TODO: customize your context here if needed.
-        ctx.setFunctionName("Your Function Name");
-
-        return ctx;
-    }
-
-    @Test
-    public void testDeletePlaylistHandler() {
-        DeletePlaylistHandler handler = new DeletePlaylistHandler();
-        Context ctx = createContext();
-
-        //String output = handler.handleRequest(input, ctx);
-
-        // TODO: validate output here if needed.
-        Assert.assertEquals("Hello from Lambda!", "test");
-    }
+	@Test
+	public void testDeleteConstant() {
+		//create test playlist
+		PlaylistRequest pr = new PlaylistRequest("LambdaTestPlaylist");
+		PlaylistResponse createResponse = new CreatePlaylistHandler().handleRequest(pr, createContext("create"));
+		Assert.assertEquals("LambdaTestPlaylist", createResponse.response);
+		
+		//delete test playlist
+		PlaylistResponse deleteResponse = new DeletePlaylistHandler().handleRequest(pr, createContext("delete"));
+		Assert.assertEquals("LambdaTestPlaylist", deleteResponse.response);
+		
+		//try to delete again and fail
+		deleteResponse = new DeletePlaylistHandler().handleRequest(pr, createContext("delete"));
+		Assert.assertEquals(422, deleteResponse.httpCode);
+	}
+	
 }

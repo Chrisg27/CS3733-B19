@@ -3,7 +3,41 @@ var currentPlaylistInView = ""
 
 function processPlaylistResponse(result) {
   console.log("result:" + result)
-  refreshPlaylist()
+  refreshPlaylistData()
+}
+
+/**
+ * Refreshes the playlist elements on the page
+ *    GET getPlaylistsURL
+ *    RESPONSE list of playlists
+ */
+function refreshPlaylistData() {
+	var xhr = new XMLHttpRequest();
+	xhr.overrideMimeType("text/javascript")
+	xhr.open("GET", getPlaylistsURL, true);
+	xhr.send();
+	   
+	console.log("sent");
+
+	// This will process results and update HTML as appropriate. 
+	xhr.onloadend = function () {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			console.log ("XHR:" + xhr.responseText);
+			currentPlaylists = JSON.parse(xhr.responseText).list
+			console.log(currentPlaylists)
+			
+			drawTable(currentPlaylists)
+			updatePlaylistSelects(currentPlaylists)
+			
+			if(currentPlaylistInView != ""){
+				refreshVideosInPlaylist();
+			}
+			
+			console.log("Success")
+		} else {
+			console.log("Failure")
+		}
+	};
 }
 
 /**
@@ -26,65 +60,39 @@ function updatePlaylistSelects(objArray){
 }
 
 /**
- * Refreshes the playlist elements
- *
- *    GET getPlaylistsURL
- *    RESPONSE  list of playlists
- */
-function refreshPlaylist() {
-	var xhr = new XMLHttpRequest();
-	xhr.overrideMimeType("text/javascript")
-	xhr.open("GET", getPlaylistsURL, true);
-	xhr.send();
-	   
-	console.log("sent");
-
-	// This will process results and update HTML as appropriate. 
-	xhr.onloadend = function () {
-		if (xhr.readyState == XMLHttpRequest.DONE) {
-			console.log ("XHR:" + xhr.responseText);
-			currentPlaylists = JSON.parse(xhr.responseText).list
-			console.log(currentPlaylists)
-			
-			drawTable(currentPlaylists)
-			updatePlaylistSelects(currentPlaylists)
-			
-			if(currentPlaylistInView != ""){
-				refreshVideosInPlaylist();
-			}
-			
-			console.log("SUCCESS!!!!!!!!!!!!!!")
-		} else {
-			console.log("FAILURE")
-		}
-	};
-}
-
-/**
  * Refreshes the list of videos for the currently viewing playlist
  * 
- * GET getPlaylistVideosURL
+ * POST getPlaylistVideosURL
  * RESPONSE list of videos
  */
 function refreshVideosInPlaylist(){
+	var data = {}
+	data["name"] = currentPlaylistInView
+	var js = JSON.stringify(data);
+	
 	var xhr = new XMLHttpRequest();
 	xhr.overrideMimeType("text/javascript")
-	xhr.open("GET", getPlaylistVideosURL, true);
-	xhr.send();
+	xhr.open("POST", getPlaylistVideosURL, true);
+	xhr.send(js);
 	   
 	console.log("sent");
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
-		if (xhr.readyState == XMLHttpRequest.DONE) {
-			console.log ("XHR:" + xhr.responseText);
-			videos = JSON.parse(xhr.responseText).list
-			console.log(videos)
-			
-			console.log("SUCCESS!!!!!!!!!!!!!!")
-		} else {
-			console.log("FAILURE")
-		}
+ 	    if (xhr.readyState == XMLHttpRequest.DONE) {
+ 	    	if (xhr.status == 200) {
+				console.log ("XHR:" + xhr.responseText);
+				videos = JSON.parse(xhr.responseText).list
+				drawVideosInPlaylistTable(videos)
+ 	    	} else {
+				console.log("actual:" + xhr.responseText)
+				var js = JSON.parse(xhr.responseText);
+				var err = js["response"];
+				alert (err);
+ 	    	}
+    	} else {
+    		processPlaylistResponse("N/A");
+    	}
 	};
 }
 
@@ -98,7 +106,7 @@ function drawPlaylistTable(objArray){
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"playlistCheckbox\" id="+index+"></td>"
+			html += "<td><input type=\"checkbox\" class=\"PlaylistCheckbox\" id="+index+"></td>"
 			html += "<td>" + cur.name + "</td>"
 			html += "</tr>"
 		})
@@ -141,7 +149,7 @@ function createPlaylist(){
 	
 	if(newPlaylistName !== ""){
 		
-		data = {}
+		var data = {}
 		data["name"] = newPlaylistName
 		var js = JSON.stringify(data);
 		console.log("JS:" + js);
@@ -156,18 +164,18 @@ function createPlaylist(){
 	    	console.log(xhr);
 	 	    console.log(xhr.request);
 	 	    if (xhr.readyState == XMLHttpRequest.DONE) {
-	 	    	 if (xhr.status == 200) {
-	 		      console.log ("XHR:" + xhr.responseText);
-	 		      processPlaylistResponse(xhr.responseText);
-	 	    	 } else {
-	 	    		 console.log("actual:" + xhr.responseText)
-	 				  var js = JSON.parse(xhr.responseText);
-	 				  var err = js["response"];
-	 				  alert (err);
-	 	    	 }
-	 	    } else {
-	 	      processPlaylistResponse("N/A");
-	 	    }
+	 	    	if (xhr.status == 200) {
+    				console.log ("XHR:" + xhr.responseText);
+    				processPlaylistResponse(xhr.responseText);
+	 	    	} else {
+    				console.log("actual:" + xhr.responseText)
+    				var js = JSON.parse(xhr.responseText);
+    				var err = js["response"];
+    				alert (err);
+	 	    	}
+ 	    	} else {
+ 	    		processPlaylistResponse("N/A");
+ 	    	}
 	    }
 	}
 	else {
@@ -181,9 +189,8 @@ function createPlaylist(){
  * POST deletePlaylist {name : playlist}
  */
 function deletePlaylist() {
-	
 	//get the name of the currently selected checkbox
-	var checkboxList = document.getElementsByClassName("playlistCheckbox");
+	var checkboxList = document.getElementsByClassName("PlaylistCheckbox");
 	console.log(checkboxList)
 	var index = 0
 	if(checkboxList !== null) {
@@ -258,18 +265,18 @@ function addVideoToPlaylist(){
  	    console.log(xhr.request);
  	    if (xhr.readyState == XMLHttpRequest.DONE) {
  	    	 if (xhr.status == 200) {
- 		      console.log ("XHR:" + xhr.responseText);
- 		      processPlaylistResponse(xhr.responseText);
+ 	    		 console.log ("XHR:" + xhr.responseText);
+ 	    		 processPlaylistResponse(xhr.responseText);
  	    	 } else {
  	    		 console.log("actual:" + xhr.responseText)
- 				  var js = JSON.parse(xhr.responseText);
- 				  var err = js["response"];
- 				  alert (err);
+ 	    		 var js = JSON.parse(xhr.responseText);
+ 	    		 var err = js["response"];
+ 	    		 alert (err);
  	    	 }
  	    } else {
  	      processPlaylistResponse("N/A");
  	    }
- 	  }
+    }
 }
 
 /**
@@ -278,7 +285,7 @@ function addVideoToPlaylist(){
  */
 function deleteVideoFromPlaylist() {
 	
-	//get the name of the currently selected checkbox
+	//get the name from the currently selected checkbox
 	var checkboxList = document.getElementsByClassName("VideoInPlaylistViewCheckbox");
 	console.log(checkboxList)
 	var index = 0
@@ -323,10 +330,33 @@ function deleteVideoFromPlaylist() {
 		}
 	};	
 }
+
+/**
+ * Shows a list of videos for a playlist
+ */
 function openPlaylist() {
-	/* open a new window of selected playlist
-	display all video segments (to be played in order)*/
+	
+	//get the name from the currently selected checkbox
+	var checkboxList = document.getElementsByClassName("PlaylistCheckBox");
+	console.log(checkboxList)
+	var index = 0
+	if(checkboxList !== null) {
+		for(var i = 0; i < checkboxList.length; i++) {
+			if(checkboxList[i].checked === true){
+				index = i
+				break
+			}
+		}
+	}
+	
+	var playlist = document.getElementById("PlaylistTable").rows[index].cells[0].innerHTML;
+	currentPlaylistInView = playlist
+	refreshVideosInPlaylist
 }
+/**
+ * Plays each video segment in order
+ * Copy the code where George does it
+ */
 function playPlaylist() {
-	/* play video segments in order */
+	
 }

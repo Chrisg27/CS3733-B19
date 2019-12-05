@@ -7,3 +7,5 @@ var getVideosURL = baseURL + "videos"     // GET
 var addPlaylistURL = baseURL + "playlist" //POST
 var addVideoToPlaylistURL = baseURL + "playlistVideos" //POST
 var deletePlaylistURL = baseURL + "playlist" // POST 
+var deleteVideoFromPlaylistURL = baseURL + "playlistVideo" //POST
+var getPlaylistVideosURL = baseURL + "listPlaylistVideo" //GET

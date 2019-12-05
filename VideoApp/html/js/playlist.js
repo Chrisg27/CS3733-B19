@@ -321,5 +321,12 @@ function deleteVideoFromPlaylist() {
 		} else {
 			processPlaylistResponse("N/A");
 		}
-	};
+	};	
+}
+function openPlaylist() {
+	/* open a new window of selected playlist
+	display all video segments (to be played in order)*/
+}
+function playPlaylist() {
+	/* play video segments in order */
 }

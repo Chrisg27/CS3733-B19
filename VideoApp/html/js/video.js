@@ -47,3 +47,23 @@ function drawVideoTable(objArray){
 	var existingTable = document.getElementById("VideoTable")
 	existingTable.innerHTML = html
 }
+
+function uploadVideo() {
+	/* get speaker from input
+	get associated text from input
+	get file uploaded
+	put all in a video object in database
+	update display */
+}
+function deleteVideo() {
+	/* delete selected video from the database
+	update display */
+}
+function markVideo() {
+	/* mark selected video
+	update display */
+}
+function unmarkVideo() {
+	/* unmark selected video
+	update display */
+}

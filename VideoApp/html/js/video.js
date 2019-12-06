@@ -8,11 +8,7 @@ var videoURLs = []
  *    RESPONSE  list of [URL, associatedText, speaker, isMarked]  
  */
 function refreshVideoTable() {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", getVideosURL, true);
-	xhr.send();
-   
-	console.log("sent");
+	var xhr = sendRequest("GET", getVideosURL, null);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {

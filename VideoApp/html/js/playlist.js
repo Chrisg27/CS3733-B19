@@ -1,4 +1,3 @@
-var videosURLsInCurrentPlaylist = []
 var currentPlaylistInView = ""
 
 function processPlaylistResponse(result) {
@@ -12,18 +11,13 @@ function processPlaylistResponse(result) {
  *    RESPONSE list of playlists
  */
 function refreshPlaylistData() {
-	var xhr = new XMLHttpRequest();
-	xhr.overrideMimeType("text/javascript")
-	xhr.open("GET", getPlaylistsURL, true);
-	xhr.send();
-	   
-	console.log("sent");
+	var xhr = sendRequest("GET", getPlaylistURL, null);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			console.log ("XHR:" + xhr.responseText);
-			currentPlaylists = JSON.parse(xhr.responseText).list
+			var currentPlaylists = JSON.parse(xhr.responseText).list
 			console.log(currentPlaylists)
 			
 			drawTable(currentPlaylists)
@@ -70,12 +64,7 @@ function refreshVideosInPlaylist(){
 	data["name"] = currentPlaylistInView
 	var js = JSON.stringify(data);
 	
-	var xhr = new XMLHttpRequest();
-	xhr.overrideMimeType("text/javascript")
-	xhr.open("POST", getPlaylistVideosURL, true);
-	xhr.send(js);
-	   
-	console.log("sent");
+	var xhr = sendRequest("POST", getPlaylistVideosURL, js);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -153,11 +142,7 @@ function createPlaylist(){
 		data["name"] = newPlaylistName
 		var js = JSON.stringify(data);
 		console.log("JS:" + js);
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", addPlaylistURL, true);
-
-		// send the collected data as JSON
-		xhr.send(js);
+		var xhr = sendRequest("POST", addPlaylistURL, js);
 			
 		//read the response
 	    xhr.onloadend = function () {
@@ -189,18 +174,8 @@ function createPlaylist(){
  * POST deletePlaylist {name : playlist}
  */
 function deletePlaylist() {
-	//get the name of the currently selected checkbox
-	var checkboxList = document.getElementsByClassName("PlaylistCheckbox");
-	console.log(checkboxList)
-	var index = 0
-	if(checkboxList !== null) {
-		for(var i = 0; i < checkboxList.length; i++) {
-			if(checkboxList[i].checked === true){
-				index = i
-				break
-			}
-		}
-	}
+	var index = getCheckBoxValue("PlaylistCheckBox");
+	if(index === -1) return;
 	
 	var playlist = document.getElementById("PlaylistTable").rows[index].cells[0].innerHTML;
 	var data = {};
@@ -208,11 +183,8 @@ function deletePlaylist() {
 
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", deletePlaylistURL, true);  // Can't be DELETE since then no data sent via JSON
-
-	// send the collected data as JSON
-	xhr.send(js);
+	
+	var xhr = sendRequest("POST", deletePlaylistURL, js);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -253,12 +225,8 @@ function addVideoToPlaylist(){
 	data["video"] = videoURL
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", addVideoToPlaylistURL, true);
-
-	// send the collected data as JSON
-	xhr.send(js);
 		
+	var xhr = sendRequest("POST", addVideoToPlaylistURL, js);
 	//read the response
     xhr.onloadend = function () {
     	console.log(xhr);
@@ -285,32 +253,15 @@ function addVideoToPlaylist(){
  */
 function deleteVideoFromPlaylist() {
 	
-	//get the name from the currently selected checkbox
-	var checkboxList = document.getElementsByClassName("VideoInPlaylistViewCheckbox");
-	console.log(checkboxList)
-	var index = 0
-	if(checkboxList !== null) {
-		for(var i = 0; i < checkboxList.length; i++) {
-			if(checkboxList[i].checked === true){
-				index = i
-				break
-			}
-		}
-	}
-	
 	var video = document.getElementById("VideosInPlaylistTable").rows[index].cells[0].innerHTML;
 	var data = {};
-	data["playlist"] = currentPlaylistInView;
-	data["video"] = video;
+	data["name"] = currentPlaylistInView;
+	data["clipURL"] = video;
 
 	var js = JSON.stringify(data);
 	console.log("JS:" + js);
-	var xhr = new XMLHttpRequest();
-	xhr.open("POST", deleteVideoFromPlaylistURL, true);  // Can't be DELETE since then no data sent via JSON
 
-	// send the collected data as JSON
-	xhr.send(js);
-
+	var xhr = sendRequest("POST", deleteVideoFromPlaylistURL, js);
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
 		console.log(xhr);
@@ -335,19 +286,8 @@ function deleteVideoFromPlaylist() {
  * Shows a list of videos for a playlist
  */
 function openPlaylist() {
-	
-	//get the name from the currently selected checkbox
-	var checkboxList = document.getElementsByClassName("PlaylistCheckBox");
-	console.log(checkboxList)
-	var index = 0
-	if(checkboxList !== null) {
-		for(var i = 0; i < checkboxList.length; i++) {
-			if(checkboxList[i].checked === true){
-				index = i
-				break
-			}
-		}
-	}
+	var index = getCheckBoxValue("PlaylistCheckBox");
+	if(index === -1) return;
 	
 	var playlist = document.getElementById("PlaylistTable").rows[index].cells[0].innerHTML;
 	currentPlaylistInView = playlist

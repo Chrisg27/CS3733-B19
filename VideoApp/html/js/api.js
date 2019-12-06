@@ -9,3 +9,6 @@ var addVideoToPlaylistURL = baseURL + "playlistVideos" //POST
 var deletePlaylistURL = baseURL + "playlist" // POST 
 var deleteVideoFromPlaylistURL = baseURL + "playlistVideo" //POST
 var getPlaylistVideosURL = baseURL + "listPlaylistVideo" //GET
+var registerSiteURL = baseURL + "registerSite" //POST
+var getSiteURL = baseURL + "registerSite" //GET
+var deleteSiteURL = baseURL + "unregisterSite" //POST

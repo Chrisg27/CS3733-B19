@@ -7,6 +7,7 @@
   <script type="text/javascript" src="js/video.js"></script>
   <script type="text/javascript" src="js/playlist.js"></script>
   <script type="text/javascript" src="js/remoteSites.js"></script>
+  <script type="text/javascript" src="js/api.js"></script>
   </head>
 <body>    
   <h1><font face="Comic Sans MS">Princess Administrator - CS 3733</h1>
@@ -104,13 +105,13 @@
 
  <div class="buttons">
       <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Site </font></button>
-      <input type="text" placeholder="Remote Site URL" name="siteURL">
+      <input type="text" placeholder="Remote Site URL" id="siteURL">
       <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Site </font></button>
     </div>
 
     <div class=content>
       <font face="Comic Sans MS">
-        <table class="playlist">
+        <table class="remoteSites" id="SiteTable">
         <tr>
           <th>Select</th>
           <th>URL</th>

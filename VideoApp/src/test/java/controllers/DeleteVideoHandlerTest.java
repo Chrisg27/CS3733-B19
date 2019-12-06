@@ -8,10 +8,15 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
+import http.DeleteVideoRequest;
+import http.DeleteVideoResponse;
+import http.UploadVideoRequest;
+import http.UploadVideoResponse;
+
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class DeleteVideoHandlerTest {
+public class DeleteVideoHandlerTest extends LambdaTest{
 
     private static Object input;
 
@@ -25,15 +30,16 @@ public class DeleteVideoHandlerTest {
         TestContext ctx = new TestContext();
 
         // TODO: customize your context here if needed.
-        ctx.setFunctionName("Your Function Name");
+        ctx.setFunctionName("DeleteVideoHandler");
 
         return ctx;
     }
 
     @Test
     public void testDeleteVideoHandler() {
-        DeleteVideoHandler handler = new DeleteVideoHandler();
-        Context ctx = createContext();
+    	DeleteVideoRequest req = new DeleteVideoRequest("LambdaTestUploadVideo", "", "", false);
+    	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("DeleteVideoHandler"));
+    	Assert.assertEquals("LambdaTestUploadVideo", res.response);
 
         //String output = handler.handleRequest(input, ctx);
 

@@ -77,6 +77,8 @@ public class AppendAndRemovePlaylistVideoHandlerTest extends LambdaTest {
 	    	
 	    	//delete the playlist from database
 	    	pResponse = new DeletePlaylistHandler().handleRequest(pr, createContext("delete"));
+	    	
+	    	dao.deleteVideoClip(new VideoClip("lambda_video_url", "", "", false));
 	    }
 	
 }

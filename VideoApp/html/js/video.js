@@ -36,7 +36,7 @@ function drawVideoTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"videoCheckbox\" id=cbv"+index+"></td>"
-			html += "<td><video id=\"num0\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video id=\"num"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
 			html += "<td>" + cur.associatedText + "</td>"

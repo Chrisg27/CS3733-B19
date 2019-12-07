@@ -61,10 +61,10 @@ public class UploadVideoHandlerTest extends LambdaTest{
     	byte[] encoding = java.util.Base64.getEncoder().encode(bytesArray);
     	UploadVideoRequest req = new UploadVideoRequest("LambdaTestUploadVideo.ogg", "", "", new String(encoding));
     	UploadVideoResponse res = new UploadVideoHandler().handleRequest(req, createContext("UploadVideoHandler"));
-    	Assert.assertEquals("LambdaTestUploadVideo", res.response);
+    	Assert.assertEquals("LambdaTestUploadVideo.ogg", res.response);
     	
     	//Then delete Video
-    	DeleteVideoRequest testReq = new DeleteVideoRequest("LambdaTestUploadVideo.ogg", "", "", false);
+    	DeleteVideoRequest testReq = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", "", "", false);
     	DeleteVideoResponse testRes = new DeleteVideoHandler().handleRequest(testReq, createContext("DeleteVideoHandler"));
     }
 }

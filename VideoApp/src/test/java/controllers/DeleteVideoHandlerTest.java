@@ -64,8 +64,8 @@ public class DeleteVideoHandlerTest extends LambdaTest{
     	UploadVideoResponse testRes = new UploadVideoHandler().handleRequest(testReq, createContext("UploadVideoHandler"));
     	
     	//Then delete Video
-    	DeleteVideoRequest req = new DeleteVideoRequest("LambdaTestUploadVideo.ogg", "", "", false);
+    	DeleteVideoRequest req = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", "", "", false);
     	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("DeleteVideoHandler"));
-    	Assert.assertEquals("LambdaTestUploadVideo.ogg", res.response);
+    	Assert.assertEquals("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", res.response);
     }
 }

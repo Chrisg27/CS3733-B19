@@ -60,9 +60,9 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 		
 		String videoBaseURL = "https://princess3733.s3.amazonaws.com/videos/";
 			
-		Regions clientRegion = Regions.DEFAULT_REGION;
+		Regions clientRegion = Regions.US_EAST_1;
         String bucketName = "princess3733";
-        String keyName = clipURL.substring(clipURL.indexOf(videoBaseURL) + videoBaseURL.length());
+        String keyName = "videos/" +  clipURL.substring(clipURL.indexOf(videoBaseURL) + videoBaseURL.length());
 
         try {
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(clientRegion).build();
@@ -92,10 +92,10 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 				response = new DeleteVideoResponse(req.getClipURL(), 200);
 				
 			} else {
-				response = new DeleteVideoResponse(req.getClipURL(), 422, "Unable to delete video.");
+				response = new DeleteVideoResponse("Unable to delete video " + req.getClipURL(), 422);
 			}
 		} catch (Exception e) {
-			response = new DeleteVideoResponse(req.getClipURL(), 403, "Unable to delete video: " + req.getClipURL() + "(" + e.getMessage() + ")");
+			response = new DeleteVideoResponse("Unable to delete video: " + req.getClipURL() + "(" + e.getMessage() + ")", 403);
 		}
 		
 		return response;

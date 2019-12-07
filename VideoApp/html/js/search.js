@@ -3,7 +3,7 @@ function search() {
 	if there is text in associated text field, use it as search criteria
 	if they both are filled, use both as search criteria
 	get all local and remote videos and search in both for the given criteria */
-	
+	let videos;
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", getVideosURL, true);
 	xhr.send();
@@ -15,7 +15,7 @@ function search() {
  	    if (xhr.readyState == XMLHttpRequest.DONE) {
  	    	if (xhr.status == 200) {
 				console.log ("XHR:" + xhr.responseText);
-				var videos = JSON.parse(xhr.responseText).list;
+				videos = JSON.parse(xhr.responseText).list;
  	    	} else {
 				console.log("actual:" + xhr.responseText)
 				var js = JSON.parse(xhr.responseText);
@@ -34,7 +34,7 @@ function search() {
 	
 	//make sure there is at least one search criteria
 	
-	if((speakerSearch !== "") && (textSearch !== "")) {
+	if((speakerSearch !== "") || (textSearch !== "")) {
 		if(speakerSearch === "") {
 			var textSearchArray;
 			videos.forEach(function(cur, index) {

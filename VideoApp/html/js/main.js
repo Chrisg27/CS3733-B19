@@ -33,7 +33,9 @@ function sendRequest(requestType, requestURL, data){
 	xhr.open(requestType, requestURL, true);
 	
 	if(requestType === "POST"){
-		xhr.send(data);
+		var js = JSON.stringify(data);
+		console.log("JS:" + js);
+		xhr.send(js);
 	} else{
 		xhr.send();
 		

@@ -50,17 +50,8 @@ function addSite(){
  */
 function deleteSite() {
 	//get the name of the currently selected checkbox
-	var checkboxList = document.getElementsByClassName("SiteCheckbox");
-	console.log(checkboxList)
-	var index = 0
-	if(checkboxList !== null) {
-		for(var i = 0; i < checkboxList.length; i++) {
-			if(checkboxList[i].checked === true){
-				index = i;
-				break;
-			}
-		}
-	}
+	getCheckBoxValue(SiteCheckbox);
+	if(index === -1) return;
 	
 	var remoteSite = document.getElementById("SiteTable").rows[index].cells[0].innerHTML;
 	var data = {};

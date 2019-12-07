@@ -28,17 +28,14 @@ public class UploadVideoHandler implements RequestHandler<UploadVideoRequest, Up
 	 * 
 	 * @throws Exception 
 	 */
-	boolean uploadVideo(String clipURL, String associatedText, String speaker, boolean isMarked) throws Exception {
+	boolean uploadVideo(String name, String associatedText, String speaker, boolean isMarked) throws Exception {
 		if (logger != null) { logger.log("in uploadVideo"); }
 		VideosDAO dao = new VideosDAO();
 		
-		VideoClip exist = dao.getVideoClip(clipURL);
-		VideoClip video = new VideoClip (clipURL, associatedText, speaker, isMarked);
-		if (exist == null) {
-			return dao.addVideoClip(video);
-		} else {
-			return false;
-		}
+		String baseURL = "https://princess3733.s3.amazonaws.com/videos/";
+		
+		VideoClip video = new VideoClip (baseURL + name, associatedText, speaker, isMarked);
+		return dao.addVideoClip(video);
 	}
 	
 	/**Stores in S3 Bucket
@@ -72,21 +69,17 @@ public class UploadVideoHandler implements RequestHandler<UploadVideoRequest, Up
 		UploadVideoResponse response;
 		try {
 			byte[] encoded = java.util.Base64.getDecoder().decode(req.getBase64EncodedVideo());
-				if (uploadSystemVideo(req.getClipURL(), encoded)) {
-					response = new UploadVideoResponse(req.getClipURL(), 200);
+			
+				if(uploadSystemVideo(req.getName(), encoded) && uploadVideo(req.getName(), req.getSpeaker(), req.getAssociatedText(), false)) {
+					response = new UploadVideoResponse(req.getName(), 200);
+					
 				} else {
-					response = new UploadVideoResponse(req.getClipURL(), 422);
+					response = new UploadVideoResponse(req.getName(), 422);
 				}
-				String contents = new String(encoded);
-				double value = Double.valueOf(contents);
 				
-				if (uploadVideo(req.getClipURL(), req.getAssociatedText(), req.getSpeaker(), false)) {
-					response = new UploadVideoResponse(req.getClipURL(), 200);
-				} else {
-					response = new UploadVideoResponse(req.getClipURL(), 422);
-				}
 		} catch (Exception e) {
-			response = new UploadVideoResponse("Unable to create constant: " + req.getClipURL() + "(" + e.getMessage() + ")", 400);
+			System.out.println(e.getMessage());
+			response = new UploadVideoResponse("Unable to upload video: " + req.getName() + "(" + e.getMessage() + ")", 400);
 		}
 
 		return response;

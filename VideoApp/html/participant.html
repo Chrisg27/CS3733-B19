@@ -20,14 +20,15 @@
     </br>
   </div>
   <div class="buttons">
+ 	<input type="text" id="videoName" placeholder="Video Name">
     <input type="text" id="videoSpeaker" placeholder="Speaker">
     <input type="text" id="videoText" placeholder="Associated Text">
-    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Upload New Video </font> </button>
+    <button type="button" class="button" onclick="uploadVideo()"><font face = "Comic Sans MS"> Upload New Video </font> </button>
     </br>
   </div>
   <div class="buttons">
-    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Video </font> </button>
-    <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Video to: </font> </button>
+    <button type="button" class="button" onclick="deleteVideo()"><font face = "Comic Sans MS"> Delete Video </font> </button>
+    <button type="button" class="button" onclick="addVideoToPlaylist()"><font face = "Comic Sans MS"> Add Video to: </font> </button>
     <select name="PlaylistSelect">
       <!-- dynamically filling! -->
     </select>
@@ -52,8 +53,8 @@
 <div class="buttons"> 
   <button type="button" class="button"onclick="createPlaylist()"><font face = "Comic Sans MS"> New Playlist </font> </button>
   <input type="text" placeholder="Name Your Playlist..." id="NewPlaylistName">
-  <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Open Playlist </font> </button>
-  <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Playlist </font> </button>
+  <button type="button" class="button" onclick="openPlaylist()"><font face = "Comic Sans MS"> Open Playlist </font> </button>
+  <button type="button" class="button" onclick="deletePlaylist()"><font face = "Comic Sans MS"> Delete Playlist </font> </button>
 </div>
 
 <div class=content name=playlists>
@@ -78,10 +79,9 @@
 </div>
 
 <div class="buttons">
-      <button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Add Video to: </font></button> 
+      <button type="button" class="button" onclick="addSearchToPlaylist()"><font face = "Comic Sans MS"> Add Video to: </font></button> 
       <select name="PlaylistSelect">
-        <option value="asdfs">Playlist 1</option>
-        <option value="asfdh">Playlist 2</option>
+      <!-- Dynamically Filling -->
       </select>
 </div>
 
@@ -104,12 +104,13 @@
 <h2><font face="Comic Sans MS">Playlist View</font></h2>
 
 <div class="buttons">
-	<button type="button" class="button" onclick="notDone()"><font face = "Comic Sans MS"> Delete Video </font></button>
+	<button type="button" class="button" onclick="playPlaylist()"><font face = "Comic Sans MS"> Play playlist </font></button>
+	<button type="button" class="button" onclick="deleteVideoFromPlaylist()"><font face = "Comic Sans MS"> Delete Video </font></button>
 </div>
 
 	<div class=content name=playlistView>
       <font face="Comic Sans MS">
-      <table class="playlistView" id="PlaylistViewTable">
+      <table class="playlistView" id="PlaylistVideoTable">
         <tr>
           <th>Select</th>
           <th>Video</th>

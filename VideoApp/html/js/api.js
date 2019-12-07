@@ -1,6 +1,6 @@
 // all access driven through BASE. Must end with a SLASH
 // be sure you change to accommodate your specific API Gateway entry point
-var baseURL = "https://qu71sq0yv8.execute-api.us-east-1.amazonaws.com/beta/" 
+var baseURL = "https://lsbph8n0k8.execute-api.us-east-1.amazonaws.com/beta/" 
 
 var getPlaylistsURL = baseURL + "playlists"   // GET
 var addPlaylistURL = baseURL + "playlist" //POST
@@ -12,6 +12,6 @@ var registerSiteURL = baseURL + "registerSite" //POST
 var getSiteURL = baseURL + "registerSite" //GET
 var deleteSiteURL = baseURL + "unregisterSite" //POST
 var getVideosURL = baseURL + "videos"     // GET
-var uploadVideo = baseURL + "videos" //POST
-var deleteVideo = baseURL + "video" //POST
-var getPublicVideos = baseURL + "video" //GET
+var uploadVideoURL = baseURL + "videos" //POST
+var deleteVideoURL = baseURL + "video" //POST
+var getPublicVideosURL = baseURL + "video" //GET

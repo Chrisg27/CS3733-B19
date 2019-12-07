@@ -21,23 +21,6 @@ import http.UploadVideoResponse;
  */
 public class UploadVideoHandlerTest extends LambdaTest{
 
-    private static Object input;
-
-    @BeforeClass
-    public static void createInput() throws IOException {
-        // TODO: set up your sample input object here.
-        input = null;
-    }
-
-    private Context createContext() {
-        TestContext ctx = new TestContext();
-
-        // TODO: customize your context here if needed.
-        ctx.setFunctionName("UploadVideoHandler");
-
-        return ctx;
-    }
-
     @Test
     public void testUploadVideo() {
     	//get path of test video
@@ -64,7 +47,7 @@ public class UploadVideoHandlerTest extends LambdaTest{
     	Assert.assertEquals("LambdaTestUploadVideo.ogg", res.response);
     	
     	//Then delete Video
-    	DeleteVideoRequest testReq = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", "", "", false);
+    	DeleteVideoRequest testReq = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg");
     	DeleteVideoResponse testRes = new DeleteVideoHandler().handleRequest(testReq, createContext("DeleteVideoHandler"));
     }
 }

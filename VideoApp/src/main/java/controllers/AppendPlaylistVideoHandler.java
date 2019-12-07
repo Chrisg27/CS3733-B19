@@ -40,7 +40,7 @@ public class AppendPlaylistVideoHandler implements RequestHandler<PlaylistVideoR
     	logger.log(req.toString());
     	
     	try {
-    		if(appendVideo(req.playlist, req.videoURL)) {
+    		if(appendVideo(req.playlist, req.videoUrl)) {
     			response = new PlaylistVideoResponse(req.playlist, 200);
     		}
     		else {

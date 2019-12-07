@@ -20,23 +20,6 @@ import http.UploadVideoResponse;
  */
 public class DeleteVideoHandlerTest extends LambdaTest{
 
-    private static Object input;
-
-    @BeforeClass
-    public static void createInput() throws IOException {
-        // TODO: set up your sample input object here.
-        input = null;
-    }
-
-    private Context createContext() {
-        TestContext ctx = new TestContext();
-
-        // TODO: customize your context here if needed.
-        ctx.setFunctionName("DeleteVideoHandler");
-
-        return ctx;
-    }
-
     @Test
     public void testDeleteVideoHandler() {
     	
@@ -61,11 +44,11 @@ public class DeleteVideoHandlerTest extends LambdaTest{
     	//encode and upload
     	byte[] encoding = java.util.Base64.getEncoder().encode(bytesArray);
     	UploadVideoRequest testReq = new UploadVideoRequest("LambdaTestUploadVideo.ogg", "", "", new String(encoding));
-    	UploadVideoResponse testRes = new UploadVideoHandler().handleRequest(testReq, createContext("UploadVideoHandler"));
+    	UploadVideoResponse testRes = new UploadVideoHandler().handleRequest(testReq, createContext("create"));
     	
     	//Then delete Video
-    	DeleteVideoRequest req = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", "", "", false);
-    	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("DeleteVideoHandler"));
+    	DeleteVideoRequest req = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg");
+    	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("delete"));
     	Assert.assertEquals("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", res.response);
     }
 }

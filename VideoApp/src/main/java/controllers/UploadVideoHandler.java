@@ -70,39 +70,19 @@ public class UploadVideoHandler implements RequestHandler<UploadVideoRequest, Up
 		try {
 			byte[] encoded = java.util.Base64.getDecoder().decode(req.getBase64EncodedVideo());
 			
-				if(uploadSystemVideo(req.getName(), encoded) && uploadVideo(req.getName(), req.getSpeaker(), req.getAssociatedText(), false)) {
-					response = new UploadVideoResponse(req.getName(), 200);
+				if(uploadSystemVideo(req.getClipUrl(), encoded) && uploadVideo(req.getClipUrl(), req.getSpeaker(), req.getAssociatedText(), false)) {
+					response = new UploadVideoResponse(req.getClipUrl(), 200);
 					
 				} else {
-					response = new UploadVideoResponse(req.getName(), 422);
+					response = new UploadVideoResponse(req.getClipUrl(), 422);
 				}
 				
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			response = new UploadVideoResponse("Unable to upload video: " + req.getName() + "(" + e.getMessage() + ")", 400);
+			response = new UploadVideoResponse("Unable to upload video: " + req.getClipUrl() + "(" + e.getMessage() + ")", 400);
 		}
 
 		return response;
 	}
-    	
-    	/*logger = context.getLogger();
-		logger.log(req.toString());
-		
-		byte[] encoded = java.util.Base64.getDecoder().decode(req.getBase64EncodedVideo());
-
-		UploadVideoResponse response;
-		try {
-    		if (uploadVideo(req.name, req.dialogue, req.speaker, false)) {
-    			response = new UploadVideoResponse(req.name, 200);
-    		}
-    		else {
-    			response = new UploadVideoResponse(req.name, 422);
-    		}
-    	} catch (Exception e) {
-    		response = new UploadVideoResponse("Unable to create playlist: " + req.name + "(" + e.getMessage() + ")", 400);
-    	}
-    	
-    	return response;
-    }*/
 
 }

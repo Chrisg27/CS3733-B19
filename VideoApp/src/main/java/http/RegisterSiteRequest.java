@@ -4,8 +4,8 @@ public class RegisterSiteRequest {
 
 	public String url;
 	
-	public String getURL() { return url; }
-	public void setURL(String url) { this.url = url; }
+	public String getUrl() { return url; }
+	public void setUrl(String url) { this.url = url; }
 	
 	public RegisterSiteRequest() {
 	}

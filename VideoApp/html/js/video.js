@@ -1,5 +1,7 @@
-//list of all local video URLs
-var videoURLs = []
+function processVideoResponse(result) {
+  console.log("result:" + result)
+  refreshVideoTable()
+}
 
 /**
  * Refresh local video list table
@@ -31,7 +33,7 @@ function drawVideoTable(objArray){
 	var html = "<thead><td><b>Select</b></td><td><b>Video</b></td><td><b>Speaker</b></td><td><b>Associated Text</b></td><td><b>Marked?</b></td></thead>"
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"videoCheckbox\" id=cbv"+index+"></td>"
+			html += "<td><input type=\"checkbox\" class=\"videoCheckbox\" id=videoTable"+index+"></td>"
 			html += "<td><video id=\"num"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
@@ -44,53 +46,100 @@ function drawVideoTable(objArray){
 	existingTable.innerHTML = html
 }
 
+/**
+ * Uploads video
+ * POST uoloadVideoURL {[name : video name] [speaker : speaker in video] [dialogue : text in video] [base64EncodedVideo]} 
+ */
 function uploadVideo() {
-	/* get speaker from input
-	get associated text from input
-	get file uploaded
-	put all in a video object in database
-	update display */
-	
+	var videoNameInput = document.getElementById("VideoName");
 	var speakerInput = document.getElementById("videoSpeaker");
 	var textInput = document.getElementById("videoText");
 	var file = document.getElementById("videoFile")
 	//getting the actual strings that the user input
+	var videoName = videoNameInput.value;
 	var speaker = speakerInput.value;
 	var text = textInput.value;
-	
-	 var data = {};
+	var data = {};
 	 
-	 if((speaker !== "")&&(text !== "")&&(file !== NULL)) {
+	if((name !== "")&&(speaker !== "")&&(text !== "")&&(file !== NULL)) {
 	 
 		 data["speaker"]  = speaker;
 		 data["dialogue"] = text;
-	 
 		 var reader = new FileReader();
 		 reader.readAsDataURL(file);
-	
 		 data["base64EncodedVideo"] = reader.result;
-
-		 var js = JSON.stringify(data);
-		 console.log("JS:" + js);
-		 var xhr = new XMLHttpRequest();
-		 xhr.open("POST", uploadVideo, true);
-	 
-		 xhr.send(js);
-	 } else {
-		 window.alert("Please input all new video criteria.");
-	 }
-
-	 /* Response!! */
-	 
+		 var xhr = sendRequest("POST", uploadVideoURL, data);
+		 
+		 // This will process results and update HTML as appropriate. 
+		 xhr.onloadend = function () {
+			 console.log(xhr);
+			 console.log(xhr.request);
+			 if (xhr.readyState == XMLHttpRequest.DONE) {
+				 if (xhr.status == 200) {
+					 console.log ("XHR:" + xhr.responseText);
+					 processVideoResponse(xhr.responseText);
+				 } else {
+					 console.log("actual:" + xhr.responseText)
+					 var js = JSON.parse(xhr.responseText);
+					 var err = js["error"];
+					 alert (err);
+				 }
+			 } else {
+				 processVideoResponse("N/A");
+			 }
+		 };
+		 
+	} else {
+		window.alert("Please input all new video criteria.");
+	}	 
 }
+
+/**
+ * deletes video
+ * POST deleteVideoURL {[url: url of the video]}
+ */
 function deleteVideo() {
-	/* delete selected video from the database
-	update display */
+	var index = getCheckboxValue("videoCheckbox");
+	if(index === -1) return;
+	
+	var videoURL = document.getElementById("VideoTable").rows[index].cells[1].innerHTML;
+	var data = {};
+	data["url"] = videoURL;
+	var xhr = sendRequest("POTS", deleteVideoURL, data);
+	
+	//Read response 
+	xhr.onloadend = function () {
+		console.log(xhr);
+		console.log(xhr.request);
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			if (xhr.status == 200) {
+				console.log ("XHR:" + xhr.responseText);
+				processVideoResponse(xhr.responseText);
+			} else {
+				console.log("actual:" + xhr.responseText)
+				var js = JSON.parse(xhr.responseText);
+				var err = js["error"];
+				alert (err);
+			}
+		} else {
+			processVideoResponse("N/A");
+		}
+	};
 }
+
+/**
+ * 
+ * @returns
+ */
 function markVideo() {
 	/* mark selected video
 	update display */
 }
+
+/**
+ * 
+ * @returns
+ */
 function unmarkVideo() {
 	/* unmark selected video
 	update display */

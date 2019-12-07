@@ -3,7 +3,6 @@
 var baseURL = "https://qu71sq0yv8.execute-api.us-east-1.amazonaws.com/beta/" 
 
 var getPlaylistsURL = baseURL + "playlists"   // GET
-var getVideosURL = baseURL + "videos"     // GET
 var addPlaylistURL = baseURL + "playlist" //POST
 var addVideoToPlaylistURL = baseURL + "playlistVideos" //POST
 var deletePlaylistURL = baseURL + "playlist" // POST 
@@ -12,3 +11,7 @@ var getPlaylistVideosURL = baseURL + "listPlaylistVideo" //GET
 var registerSiteURL = baseURL + "registerSite" //POST
 var getSiteURL = baseURL + "registerSite" //GET
 var deleteSiteURL = baseURL + "unregisterSite" //POST
+var getVideosURL = baseURL + "videos"     // GET
+var uploadVideo = baseURL + "videos" //POST
+var deleteVideo = baseURL + "video" //POST
+var getPublicVideos = baseURL + "video" //GET

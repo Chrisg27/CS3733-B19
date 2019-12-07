@@ -50,6 +50,38 @@ function uploadVideo() {
 	get file uploaded
 	put all in a video object in database
 	update display */
+	
+	var speakerInput = document.getElementById("videoSpeaker");
+	var textInput = document.getElementById("videoText");
+	var file = document.getElementById("videoFile")
+	//getting the actual strings that the user input
+	var speaker = speakerInput.value;
+	var text = textInput.value;
+	
+	 var data = {};
+	 
+	 if((speaker !== "")&&(text !== "")&&(file !== NULL)) {
+	 
+		 data["speaker"]  = speaker;
+		 data["dialogue"] = text;
+	 
+		 var reader = new FileReader();
+		 reader.readAsDataURL(file);
+	
+		 data["base64EncodedVideo"] = reader.result;
+
+		 var js = JSON.stringify(data);
+		 console.log("JS:" + js);
+		 var xhr = new XMLHttpRequest();
+		 xhr.open("POST", uploadVideo, true);
+	 
+		 xhr.send(js);
+	 } else {
+		 window.alert("Please input all new video criteria.");
+	 }
+
+	 /* Response!! */
+	 
 }
 function deleteVideo() {
 	/* delete selected video from the database

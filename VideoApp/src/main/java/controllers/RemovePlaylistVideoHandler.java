@@ -40,7 +40,7 @@ public class RemovePlaylistVideoHandler implements RequestHandler<PlaylistVideoR
     	logger.log(req.toString());
     	
     	try {
-    		if(removeVideo(req.playlist, req.videoURL)) {
+    		if(removeVideo(req.playlist, req.videoUrl)) {
     			response = new PlaylistVideoResponse(req.playlist, 200);
     		}
     		else {

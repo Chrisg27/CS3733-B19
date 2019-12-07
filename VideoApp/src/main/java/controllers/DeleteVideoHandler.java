@@ -32,12 +32,12 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 	 * 
 	 * @throws Exception 
 	 */
-	boolean deleteVideo(String clipURL, String associatedText, String speaker, boolean isMarked) throws Exception {
+	boolean deleteVideo(String clipURL) throws Exception {
 		if (logger != null) { logger.log("in deleteVideo"); }
 		VideosDAO dao = new VideosDAO();
 		
 		VideoClip exist = dao.getVideoClip(clipURL);
-		VideoClip video = new VideoClip (clipURL, associatedText, speaker, isMarked);
+		VideoClip video = new VideoClip (clipURL, "", "", false);
 		if (exist != null) {
 			return dao.deleteVideoClip(video);
 		} else {
@@ -88,7 +88,7 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 		logger.log(req.toString());
 		
 		try {
-			if(deleteSystemVideo(req.getClipURL()) && deleteVideo(req.getClipURL(), req.getAssociatedText(), req.getSpeaker(), req.getIsMarked())) {
+			if(deleteSystemVideo(req.getClipURL())) {
 				response = new DeleteVideoResponse(req.getClipURL(), 200);
 				
 			} else {

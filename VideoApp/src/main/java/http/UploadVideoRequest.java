@@ -1,13 +1,13 @@
 package http;
 
 public class UploadVideoRequest {
-	private String clipURL;
+	private String name;
 	private String speaker;
 	private String associatedText;
 	private String base64EncodedVideo;
 	
-	public String getClipURL() {return clipURL;}
-	public void setClipURL(String clipURL) {this.clipURL = clipURL;}
+	public String getName() {return name;}
+	public void setName(String name) {this.name = name;}
 	
 	public String getSpeaker() { return this.speaker; }
 	public void setSpeaker(String speaker) { this.speaker = speaker; }
@@ -22,13 +22,13 @@ public class UploadVideoRequest {
 	}
 	
 	public UploadVideoRequest (String n, String s, String d, String encoding) {
-		this.clipURL = n;
+		this.name = n;
 		this.speaker = s;
 		this.associatedText = d;
 		this.base64EncodedVideo = encoding;
 	}
 	
 	public String toString() {
-		return "UploadVideo(" + clipURL + ", " + speaker + ", " + associatedText + ", " + base64EncodedVideo + ")";
+		return "UploadVideo(" + name + ", " + speaker + ", " + associatedText + ", " + base64EncodedVideo + ")";
 	}
 }

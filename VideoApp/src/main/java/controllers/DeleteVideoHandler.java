@@ -38,7 +38,7 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 		
 		VideoClip exist = dao.getVideoClip(clipURL);
 		VideoClip video = new VideoClip (clipURL, associatedText, speaker, isMarked);
-		if (exist == null) {
+		if (exist != null) {
 			return dao.deleteVideoClip(video);
 		} else {
 			return false;
@@ -57,10 +57,12 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 			s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.US_EAST_1).build();
 			logger.log("attach to S3 succeed");
 		}
+		
+		String videoBaseURL = "https://princess3733.s3.amazonaws.com/videos/";
 			
 		Regions clientRegion = Regions.DEFAULT_REGION;
         String bucketName = "princess3733";
-        String keyName = clipURL;
+        String keyName = clipURL.substring(clipURL.indexOf(videoBaseURL) + videoBaseURL.length());
 
         try {
             AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(clientRegion).build();
@@ -70,10 +72,10 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
             // The call was transmitted successfully, but Amazon S3 couldn't process 
             // it, so it returned an error response.
             e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
-        }
-        
-        return true;
+            
+        } return true;
 	}
 	
 	@Override
@@ -86,7 +88,7 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 		logger.log(req.toString());
 		
 		try {
-			if(deleteVideo(req.getClipURL(), req.getAssociatedText(), req.getSpeaker(), req.getIsMarked()) && deleteSystemVideo(req.getClipURL())) {
+			if(deleteSystemVideo(req.getClipURL()) && deleteVideo(req.getClipURL(), req.getAssociatedText(), req.getSpeaker(), req.getIsMarked())) {
 				response = new DeleteVideoResponse(req.getClipURL(), 200);
 				
 			} else {

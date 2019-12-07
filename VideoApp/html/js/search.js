@@ -33,7 +33,7 @@ function search() {
 	var textSearch = textInput.value;
 	
 	//make sure there is at least one search criteria
-	
+	console.log(videos);
 	if((speakerSearch !== "") || (textSearch !== "")) {
 		if(speakerSearch === "") {
 			var textSearchArray;

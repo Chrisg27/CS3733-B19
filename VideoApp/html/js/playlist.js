@@ -17,31 +17,31 @@ function refreshPlaylistData() {
 	xhr.onloadend = function () {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			console.log ("XHR:" + xhr.responseText);
-			var currentPlaylists = JSON.parse(xhr.responseText).list
-			console.log(currentPlaylists)
+			var currentPlaylists = JSON.parse(xhr.responseText).list;
+			console.log(currentPlaylists);
 			
-			drawTable(currentPlaylists)
-			updatePlaylistSelects(currentPlaylists)
+			drawPlaylistTable(currentPlaylists);
+			updatePlaylistSelects(currentPlaylists);
 			
 			if(currentPlaylistInView != ""){
 				refreshVideosInPlaylist();
 			}
 			
-			console.log("Success")
+			console.log("Success");
 		} else {
-			console.log("Failure")
+			console.log("Failure");
 		}
 	};
 }
 
 /**
- * Updates the list of available playlists to add a video too
+ * Updates the list of available playlists to add a video to
  * @param objArray
  */
 function updatePlaylistSelects(objArray){
-	var selectArrays = document.getElementsByName("PlaylistSelect")
-	console.log(selectArrays)
-	var html = ""
+	var selectArrays = document.getElementsByName("PlaylistSelect");
+	console.log(selectArrays);
+	var html = "";
 		
 		objArray.forEach(function(cur, index){
 			html += "<option id=pl"+index+">"
@@ -49,22 +49,20 @@ function updatePlaylistSelects(objArray){
 			html += "</option>"
 		})
 		selectArrays.forEach(function(curSelect){
-			curSelect.innerHTML = html
+			curSelect.innerHTML = html;
 		})
 }
 
 /**
  * Refreshes the list of videos for the currently viewing playlist
  * 
- * POST getPlaylistVideosURL
+ * POST getPlaylistVideosURL {[playlistName : name of the playlist]}
  * RESPONSE list of videos
  */
 function refreshVideosInPlaylist(){
 	var data = {}
-	data["name"] = currentPlaylistInView
-	var js = JSON.stringify(data);
-	
-	var xhr = sendRequest("POST", getPlaylistVideosURL, js);
+	data["playlistName"] = currentPlaylistInView;
+	var xhr = sendRequest("POST", getPlaylistVideosURL, data);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -95,13 +93,13 @@ function drawPlaylistTable(objArray){
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"PlaylistCheckbox\" id="+index+"></td>"
+			html += "<td><input type=\"checkbox\" class=\"PlaylistCheckbox\" id=\"PlaylistCheckbox" + index + "\"></td>"
 			html += "<td>" + cur.name + "</td>"
 			html += "</tr>"
 		})
 
-	var existingTable = document.getElementById("PlaylistTable")
-	existingTable.innerHTML = html
+	var existingTable = document.getElementById("PlaylistTable");
+	existingTable.innerHTML = html;
 }
 
 /**
@@ -114,7 +112,8 @@ function drawVideosInPlaylistTable(objArray){
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"VideoInPlaylistViewCheckbox\" id="+index+"></td>"
+			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
+			html += "<td><video id=\"playlistVideo"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"
 		})
@@ -125,24 +124,22 @@ function drawVideosInPlaylistTable(objArray){
 
 /**
  * Creates a new playlist
- * POST addPlaylistURL {name : playlistName}
+ * POST addPlaylistURL {[playlistName : name of the playlist]}
  */
 function createPlaylist(){
 	//getting the user's input
-	var input = document.getElementById("NewPlaylistName")
-	console.log(input)
+	var input = document.getElementById("NewPlaylistName");
+	console.log(input);
 	//getting the actual string that the user input
-	var newPlaylistName = input.value
-	console.log(newPlaylistName)
+	var newPlaylistName = input.value;
+	console.log(newPlaylistName);
 	//if the string put in is not empty, add the name to the table
 	
 	if(newPlaylistName !== ""){
 		
 		var data = {}
-		data["name"] = newPlaylistName
-		var js = JSON.stringify(data);
-		console.log("JS:" + js);
-		var xhr = sendRequest("POST", addPlaylistURL, js);
+		data["playlistName"] = newPlaylistName;
+		var xhr = sendRequest("POST", addPlaylistURL, data);
 			
 		//read the response
 	    xhr.onloadend = function () {
@@ -171,20 +168,16 @@ function createPlaylist(){
 
 /**
  * Deletes a playlist
- * POST deletePlaylist {name : playlist}
+ * POST deletePlaylist {[playlistVideo : name of playlist}}
  */
 function deletePlaylist() {
 	var index = getCheckBoxValue("PlaylistCheckBox");
 	if(index === -1) return;
 	
-	var playlist = document.getElementById("PlaylistTable").rows[index].cells[0].innerHTML;
+	var playlist = document.getElementById("PlaylistTable").rows[index].cells[1].innerHTML;
 	var data = {};
-	data["name"] = playlist;
-
-	var js = JSON.stringify(data);
-	console.log("JS:" + js);
-	
-	var xhr = sendRequest("POST", deletePlaylistURL, js);
+	data["playlistName"] = playlist;
+	var xhr = sendRequest("POST", deletePlaylistURL, data);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -208,7 +201,7 @@ function deletePlaylist() {
 
 /**
  * Adds video to playlist
- * POST addVideoToPlaylistURL {[playlist : name of playlist], [video : url of video]} 
+ * POST addVideoToPlaylistURL {[playlistName : name of playlist], [videoUrl : url of video]} 
  */
 function addVideoToPlaylist(){
 	//get the playlist to add to
@@ -221,12 +214,10 @@ function addVideoToPlaylist(){
 	console.log(videoURL)
 	
 	data = {}
-	data["playlist"] = playlist
-	data["video"] = videoURL
-	var js = JSON.stringify(data);
-	console.log("JS:" + js);
-		
-	var xhr = sendRequest("POST", addVideoToPlaylistURL, js);
+	data["playlistName"] = playlist
+	data["videoUrl"] = videoURL
+	var xhr = sendRequest("POST", addVideoToPlaylistURL, data);
+	
 	//read the response
     xhr.onloadend = function () {
     	console.log(xhr);
@@ -249,19 +240,16 @@ function addVideoToPlaylist(){
 
 /**
  * Deletes a video
- * POST deleteVideoFromPlaylistURL {[name : playlist] [video : url of video]}
+ * POST deleteVideoFromPlaylistURL {[playlistName : name of playlist] [videoUrl : url of video]}
  */
 function deleteVideoFromPlaylist() {
-	
-	var video = document.getElementById("VideosInPlaylistTable").rows[index].cells[0].innerHTML;
+	var index = getCheckBoxValue("VideoInPlaylistViewCheckbox");
+	if(index === -1) return;
+	var video = document.getElementById("VideosInPlaylistTable").rows[index].cells[1].innerHTML;
 	var data = {};
-	data["name"] = currentPlaylistInView;
-	data["clipURL"] = video;
+	data["playlistName"] = currentPlaylistInView;
 
-	var js = JSON.stringify(data);
-	console.log("JS:" + js);
-
-	var xhr = sendRequest("POST", deleteVideoFromPlaylistURL, js);
+	var xhr = sendRequest("POST", deleteVideoFromPlaylistURL, data);
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
 		console.log(xhr);
@@ -289,14 +277,27 @@ function openPlaylist() {
 	var index = getCheckBoxValue("PlaylistCheckBox");
 	if(index === -1) return;
 	
-	var playlist = document.getElementById("PlaylistTable").rows[index].cells[0].innerHTML;
-	currentPlaylistInView = playlist
-	refreshVideosInPlaylist
+	var playlist = document.getElementById("PlaylistTable").rows[index].cells[1].innerHTML;
+	currentPlaylistInView = playlist;
+	refreshVideosInPlaylist();
 }
 /**
  * Plays each video segment in order
- * Copy the code where George does it
  */
 function playPlaylist() {
+	var videos = [];
+	
+	for(var index = document.getElementById("PlaylistViewTable").rows.length - 1; index >= 0; index--){
+		videos[index] = document.getElementById("playlistVideo" + index);
+		
+		//if not the last video
+		if(index !== document.getElementById("PlaylistViewTable").rows.length - 1){
+			videos[index].addEventListener("ended", function() {videos[index + 1].play(); });
+		}
+	}
+	
+	if(videos.length > 0){
+		videos[0].play();
+	}
 	
 }

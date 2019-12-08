@@ -61,14 +61,16 @@ function uploadVideo() {
 	var text = textInput.value;
 	var data = {};
 	 
-	if((videoName !== "")&&(speaker !== "")&&(text !== "")&&(file !== NULL)) {
+	if((videoName !== "")&&(speaker !== "")&&(text !== "")&&(file !== null)) {
 	 
 		data["clipUrl"] = videoName;
 		data["speaker"]  = speaker;
 		data["associatedText"] = text;
 		var reader = new FileReader();
-		reader.readAsDataURL(file);
-		data["base64EncodedVideo"] = reader.result;
+		reader.readAsDataURL(file.files[0]);
+		reader.onload = function(e){
+			data["base64EncodedVideo"] = reader.result.split(',')[1];
+		console.log(data)
 		var xhr = sendRequest("POST", uploadVideoURL, data);
 		 
 		// This will process results and update HTML as appropriate. 
@@ -89,6 +91,8 @@ function uploadVideo() {
 				processVideoResponse("N/A");
 			}
 		};
+		}
+		
 		 
 	} else {
 		window.alert("Please input all new video criteria.");
@@ -100,7 +104,7 @@ function uploadVideo() {
  * POST deleteVideoURL {clipUrl: url of the video}
  */
 function deleteVideo() {
-	var index = getCheckboxValue("VideoTableCheckbox");
+	var index = getCheckBoxValue("VideoTableCheckbox");
 	if(index === -1) return;
 	
 	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].getAttribute("original-videourl");

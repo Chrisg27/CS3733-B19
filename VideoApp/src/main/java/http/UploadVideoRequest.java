@@ -7,7 +7,7 @@ public class UploadVideoRequest {
 	private String base64EncodedVideo;
 	
 	public String getClipUrl() {return clipUrl;}
-	public void setClipUrl(String name) {this.clipUrl = clipUrl;}
+	public void setClipUrl(String clipUrl) {this.clipUrl = clipUrl;}
 	
 	public String getSpeaker() { return this.speaker; }
 	public void setSpeaker(String speaker) { this.speaker = speaker; }

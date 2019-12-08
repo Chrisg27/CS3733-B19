@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
+import dataBase.VideosDAO;
 import http.DeleteVideoRequest;
 import http.DeleteVideoResponse;
 import http.UploadVideoRequest;
@@ -50,5 +51,11 @@ public class DeleteVideoHandlerTest extends LambdaTest{
     	DeleteVideoRequest req = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg");
     	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("delete"));
     	Assert.assertEquals("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", res.response);
+    	Assert.assertTrue(res.httpCode == 200);
+    	
+    	DeleteVideoRequest req2 = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/newClip");
+    	DeleteVideoResponse res2 = new DeleteVideoHandler().handleRequest(req2, createContext("delete"));
+    	Assert.assertEquals("https://princess3733.s3.amazonaws.com/videos/newClip", res2.response);
+    	Assert.assertTrue(res2.httpCode == 200);
     }
 }

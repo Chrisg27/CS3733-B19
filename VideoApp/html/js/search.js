@@ -72,7 +72,7 @@ function drawSearchTable(objArray) {
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"VideoSearchCheckbox\" id=cbsv"+index+"></td>"
-			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"searchTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video id=\"searchTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
 			html += "<td>" + cur.associatedText + "</td>"
@@ -89,7 +89,7 @@ function addSearchToPlaylist(){
 	console.log(playlist);
 	
 	var index = getCheckBoxValue("SearchTable");
-	var videoURL = document.getElementById("SearchTable").rows[index + 1].cells[1].videoUrl;
+	var videoURL = document.getElementById("SearchTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
 	console.log(videoURL);
 	
 	data = {}

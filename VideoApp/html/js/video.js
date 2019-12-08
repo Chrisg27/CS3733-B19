@@ -110,7 +110,7 @@ function deleteVideo() {
 	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
 	var data = {};
 	data["clipUrl"] = videoURL;
-	var xhr = sendRequest("POTS", deleteVideoURL, data);
+	var xhr = sendRequest("POST", deleteVideoURL, data);
 	
 	//Read response 
 	xhr.onloadend = function () {

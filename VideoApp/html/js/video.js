@@ -34,7 +34,7 @@ function drawVideoTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"VideoTableCheckbox\" id=\"VideoTableCheckbox"+index+"\"></td>"
-			html += "<td><video id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
 			html += "<td>" + cur.associatedText + "</td>"
@@ -48,7 +48,7 @@ function drawVideoTable(objArray){
 
 /**
  * Uploads video
- * POST uoloadVideoURL {[name : video name] [speaker : speaker in video] [dialogue : text in video] [base64EncodedVideo]} 
+ * POST uoloadVideoURL {[clipUrl : video name] [speaker : speaker in video] [associatedText : text in video] [base64EncodedVideo]} 
  */
 function uploadVideo() {
 	var videoNameInput = document.getElementById("VideoName");
@@ -63,9 +63,9 @@ function uploadVideo() {
 	 
 	if((name !== "")&&(speaker !== "")&&(text !== "")&&(file !== NULL)) {
 	 
-		data["name"] = videoName;
+		data["clipUrl"] = videoName;
 		data["speaker"]  = speaker;
-		data["dialogue"] = text;
+		data["associatedText"] = text;
 		var reader = new FileReader();
 		reader.readAsDataURL(file);
 		data["base64EncodedVideo"] = reader.result;
@@ -97,15 +97,15 @@ function uploadVideo() {
 
 /**
  * deletes video
- * POST deleteVideoURL {[url: url of the video]}
+ * POST deleteVideoURL {clipUrl: url of the video}
  */
 function deleteVideo() {
 	var index = getCheckboxValue("VideoTableCheckbox");
 	if(index === -1) return;
 	
-	var videoURL = document.getElementById("VideoTable").rows[index].cells[1].innerHTML;
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].videoUrl;
 	var data = {};
-	data["url"] = videoURL;
+	data["clipUrl"] = videoURL;
 	var xhr = sendRequest("POTS", deleteVideoURL, data);
 	
 	//Read response 

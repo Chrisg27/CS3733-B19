@@ -2,7 +2,6 @@
 <html>
 <head>
   <link rel="stylesheet" href="css/all.css">
-  <script type="text/javascript" src="js/all.js"></script>
   <script type="text/javascript" src="js/search.js"></script>
   <script type="text/javascript" src="js/video.js"></script>
   <script type="text/javascript" src="js/playlist.js"></script>
@@ -30,7 +29,7 @@
   <div class="buttons">
     <button type="button" class="button" onclick="deleteVideo()"><font face = "Comic Sans MS"> Delete Video </font> </button>
     <button type="button" class="button" onclick="addVideoToPlaylist()"><font face = "Comic Sans MS"> Add Video to: </font> </button>
-    <select name="PlaylistSelect">
+    <select name="PlaylistSelect" id="LocalVideoPlaylistSelect">
       <!-- dynamically filling! -->
     </select>
   </div>
@@ -81,7 +80,7 @@
 
 <div class="buttons">
       <button type="button" class="button" onclick="addSearchToPlaylist()"><font face = "Comic Sans MS"> Add Video to: </font></button> 
-      <select name="PlaylistSelect">
+      <select name="PlaylistSelect" id="SearchVideoPlaylistSelect">
       <!-- Dynamically Filling -->
       </select>
 </div>

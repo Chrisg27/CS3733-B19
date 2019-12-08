@@ -10,7 +10,7 @@ window.addEventListener('load', (event) => {
  */
 function loadBaseData(){
 	refreshVideoTable();
-	refreshPlaylistTable();
+	refreshPlaylistData();
 }
 
 /**

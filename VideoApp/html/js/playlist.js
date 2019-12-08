@@ -11,7 +11,7 @@ function processPlaylistResponse(result) {
  *    RESPONSE list of playlists
  */
 function refreshPlaylistData() {
-	var xhr = sendRequest("GET", getPlaylistURL, null);
+	var xhr = sendRequest("GET", getPlaylistsURL, null);
 
 	// This will process results and update HTML as appropriate. 
 	xhr.onloadend = function () {
@@ -61,7 +61,7 @@ function updatePlaylistSelects(objArray){
  */
 function refreshVideosInPlaylist(){
 	var data = {}
-	data["playlistName"] = currentPlaylistInView;
+	data["name"] = currentPlaylistInView;
 	var xhr = sendRequest("POST", getPlaylistVideosURL, data);
 
 	// This will process results and update HTML as appropriate. 
@@ -113,7 +113,7 @@ function drawVideosInPlaylistTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
-			html += "<td><video id=\"playlistVideo"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"
 		})
@@ -138,7 +138,7 @@ function createPlaylist(){
 	if(newPlaylistName !== ""){
 		
 		var data = {}
-		data["playlistName"] = newPlaylistName;
+		data["name"] = newPlaylistName;
 		var xhr = sendRequest("POST", addPlaylistURL, data);
 			
 		//read the response
@@ -171,12 +171,16 @@ function createPlaylist(){
  * POST deletePlaylist {[playlistVideo : name of playlist}}
  */
 function deletePlaylist() {
-	var index = getCheckBoxValue("PlaylistCheckBox");
+	var index = getCheckBoxValue("PlaylistCheckbox");
+	
+	//TESTING
+	console.log(index);
+	
 	if(index === -1) return;
 	
-	var playlist = document.getElementById("PlaylistTable").rows[index].cells[1].innerHTML;
+	var playlist = document.getElementById("PlaylistTable").rows[index + 1].cells[1].innerText;
 	var data = {};
-	data["playlistName"] = playlist;
+	data["name"] = playlist;
 	var xhr = sendRequest("POST", deletePlaylistURL, data);
 
 	// This will process results and update HTML as appropriate. 
@@ -201,21 +205,21 @@ function deletePlaylist() {
 
 /**
  * Adds video to playlist
- * POST addVideoToPlaylistURL {[playlistName : name of playlist], [videoUrl : url of video]} 
+ * POST addVideoToPlaylistURL {[playlist : name of playlist], [videoUrl : url of video]} 
  */
 function addVideoToPlaylist(){
 	//get the playlist to add to
-	var list = document.getElementById("PlaylistSelect")
+	var list = document.getElementById("LocalVideoPlaylistSelect")
 	var playlist = list.options[list.selectedIndex].text
 	console.log(playlist)
 	
-	//get the video to add, how to do this?
-	var videoURL
-	console.log(videoURL)
+	var index = getCheckBoxValue("VideoTable");
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].videoUrl;
+	console.log(videoURL);
 	
 	data = {}
-	data["playlistName"] = playlist
-	data["videoUrl"] = videoURL
+	data["playlist"] = playlist;
+	data["videoUrl"] = videoURL;
 	var xhr = sendRequest("POST", addVideoToPlaylistURL, data);
 	
 	//read the response
@@ -240,14 +244,15 @@ function addVideoToPlaylist(){
 
 /**
  * Deletes a video
- * POST deleteVideoFromPlaylistURL {[playlistName : name of playlist] [videoUrl : url of video]}
+ * POST deleteVideoFromPlaylistURL {[playlist : name of playlist] [videoUrl : url of video]}
  */
 function deleteVideoFromPlaylist() {
-	var index = getCheckBoxValue("VideoInPlaylistViewCheckbox");
+	var index = getCheckBoxValue("PlaylistVideoCheckbox");
 	if(index === -1) return;
-	var video = document.getElementById("VideosInPlaylistTable").rows[index].cells[1].innerHTML;
+	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].videoUrl;
 	var data = {};
-	data["playlistName"] = currentPlaylistInView;
+	data["playlist"] = currentPlaylistInView;
+	data["videoUrl"] = video;
 
 	var xhr = sendRequest("POST", deleteVideoFromPlaylistURL, data);
 	// This will process results and update HTML as appropriate. 
@@ -277,7 +282,7 @@ function openPlaylist() {
 	var index = getCheckBoxValue("PlaylistCheckBox");
 	if(index === -1) return;
 	
-	var playlist = document.getElementById("PlaylistTable").rows[index].cells[1].innerHTML;
+	var playlist = document.getElementById("PlaylistTable").rows[index + 1].cells[1].innerText;
 	currentPlaylistInView = playlist;
 	refreshVideosInPlaylist();
 }

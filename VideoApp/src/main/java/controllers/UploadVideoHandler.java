@@ -8,6 +8,7 @@ import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
@@ -55,7 +56,8 @@ public class UploadVideoHandler implements RequestHandler<UploadVideoRequest, Up
 		ObjectMetadata omd = new ObjectMetadata();
 		omd.setContentLength(videos.length);
 		
-		s3.putObject(new PutObjectRequest("princess3733", "videos/" + name, bais, omd));
+		s3.putObject(new PutObjectRequest("princess3733", "videos/" + name, bais, omd)
+		.withCannedAcl(CannedAccessControlList.PublicRead));
 		
 		// if we ever get here, then whole thing was stored
 		return true;

@@ -249,7 +249,7 @@ function addVideoToPlaylist(){
 function deleteVideoFromPlaylist() {
 	var index = getCheckBoxValue("PlaylistVideoCheckbox");
 	if(index === -1) return;
-	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
+	var video = document.getElementById("PlaylistVideoTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
 	var data = {};
 	data["playlist"] = currentPlaylistInView;
 	data["videoUrl"] = video;

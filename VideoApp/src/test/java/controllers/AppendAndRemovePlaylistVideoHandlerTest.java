@@ -1,4 +1,4 @@
-package controllers;
+ package controllers;
 
 import java.io.IOException;
 
@@ -34,11 +34,13 @@ public class AppendAndRemovePlaylistVideoHandlerTest extends LambdaTest {
 	    	//try to add video to playlist
 	    	PlaylistVideoRequest pvr = new PlaylistVideoRequest("LambdaTestPlaylist", "lambda_video_url");
 	    	PlaylistVideoResponse pvResponse = new AppendPlaylistVideoHandler().handleRequest(pvr, createContext("append"));
-	    	Assert.assertEquals("LambdaTestPlaylist", pvResponse.response);
+	    	Assert.assertEquals("LambdaTestPlaylist, lambda_video_url", pvResponse.response);
+	    	Assert.assertEquals(200, pvResponse.httpCode);
 	    	
 	    	//try to add video to playlist again
 	    	pvResponse = new AppendPlaylistVideoHandler().handleRequest(pvr, createContext("create"));
-	    	Assert.assertEquals("LambdaTestPlaylist", pvResponse.response);
+	    	Assert.assertEquals("LambdaTestPlaylist, lambda_video_url", pvResponse.response);
+	    	Assert.assertEquals(422, pvResponse.httpCode);
 	    	
 	    	//try to add video to playlist that does not exist
 	    	PlaylistVideoRequest pvr2 = new PlaylistVideoRequest("PlaylistNotExist", "lambda_video_url");
@@ -61,7 +63,8 @@ public class AppendAndRemovePlaylistVideoHandlerTest extends LambdaTest {
 	    	
 	    	//remove a video from a playlist
 	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr, createContext("delete"));
-	    	Assert.assertEquals("LambdaTestPlaylist", pvResponse.response);
+	    	Assert.assertEquals("LambdaTestPlaylist, lambda_video_url", pvResponse.response);
+	    	Assert.assertEquals(pvResponse.httpCode, 200);
 	    	
 	    	//remove the video again (should fail)
 	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr, createContext("delete"));

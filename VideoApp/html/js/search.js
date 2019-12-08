@@ -84,17 +84,19 @@ function drawSearchTable(objArray) {
 
 function addSearchToPlaylist(){
 	//get the playlist to add to
-	var list = document.getElementById("SearchVideoPlaylistSelect");
-	var playlist = list.options[list.selectedIndex].text;
-	console.log(playlist);
+	var list = document.getElementById("SearchVideoPlaylistSelect")
+	var playlist = list.options[list.selectedIndex].text
+	console.log(playlist)
 	
-	var index = getCheckBoxValue("SearchTable");
+	var index = getCheckBoxValue("VideoSearchCheckbox");
+	if(index === -1) return;
+	
 	var videoURL = document.getElementById("SearchTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
 	console.log(videoURL);
 	
 	data = {}
-	data["playlistName"] = playlist
-	data["videoUrl"] = videoURL
+	data["playlist"] = playlist;
+	data["videoUrl"] = videoURL;
 	var xhr = sendRequest("POST", addVideoToPlaylistURL, data);
 	
 	//read the response

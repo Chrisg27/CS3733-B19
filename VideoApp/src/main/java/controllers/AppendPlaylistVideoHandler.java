@@ -41,10 +41,10 @@ public class AppendPlaylistVideoHandler implements RequestHandler<PlaylistVideoR
     	
     	try {
     		if(appendVideo(req.playlist, req.videoUrl)) {
-    			response = new PlaylistVideoResponse(req.playlist, 200);
+    			response = new PlaylistVideoResponse(req.playlist + ", " + req.videoUrl, 200);
     		}
     		else {
-    			response = new PlaylistVideoResponse(req.playlist, 422);
+    			response = new PlaylistVideoResponse(req.playlist + ", " + req.videoUrl, 422);
     		}
     	} catch (Exception e) {
     		response = new PlaylistVideoResponse("Unable to append video to playlist: " + req.playlist + "(" + e.getMessage() + ")", 400);

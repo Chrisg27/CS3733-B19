@@ -67,13 +67,15 @@ function search() {
 }
 
 function drawSearchTable(objArray) {
-	var html = "<thead><td><b>Select</b></td><td><b>Name</b></td></thead>"
+	var html = "<thead><td><b>Select</b></td><td><b>Name</b></td><td><b>Speaker</b></td><td><b>Associated Text</b></td></thead>"
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"VideoSearchCheckbox\" id=cbsv"+index+"></td>"
 			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"searchTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
+			html += "<td>" + cur.speaker + "</td>"
+			html += "<td>" + cur.associatedText + "</td>"
 		})
 
 	var existingTable = document.getElementById("SearchTable")

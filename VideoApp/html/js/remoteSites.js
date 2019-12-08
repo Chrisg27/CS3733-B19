@@ -31,16 +31,17 @@ function refreshSiteData() {
  * @param objArray remote site information
  */
 function drawRemoteSiteTable(objArray) {
+	console.log(objArray)
 	var html = "<thead><td><b>Select</b></td><td><b>URL</b></td></thead>"
 		
-	objArray.forEach(function(cur, index){
-		html += "<tr id="+index+">"
-		html += "<td><input type=\"checkbox\" class=\"SiteCheckbox\" id=\"remoteSite" + index + "\></td>"
-		html += "<td>" + cur.siteURL + "</td>"
-		html += "</tr>"
-	})
+		objArray.forEach(function(cur, index){
+			html += "<tr id="+index+">"
+			html += "<td><input type=\"checkbox\" class=\"SiteCheckbox\" id=\"SiteCheckbox" + index + "\"></td>"
+			html += "<td>" + cur.siteURL + "</td>"
+			html += "</tr>"
+		})
 
-	var existingTable = document.getElementById("SiteTable")
+	var existingTable = document.getElementById("SiteTable");
 	existingTable.innerHTML = html;
 }
 

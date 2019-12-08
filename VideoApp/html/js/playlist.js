@@ -288,6 +288,7 @@ function openPlaylist() {
 	currentPlaylistInView = playlist;
 
 	console.log("playlist: " + currentPlaylistInView);
+	document.getElementById("ViewedPlaylistName").innerHTML = playlist;
 	refreshVideosInPlaylist();
 }
 /**

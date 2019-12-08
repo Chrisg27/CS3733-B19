@@ -93,10 +93,12 @@ function addSite(){
  */
 function deleteSite() {
 	//get the name of the currently selected checkbox
-	getCheckBoxValue(SiteCheckbox);
+	console.log(getCheckBoxValue("SiteCheckbox"));
+	index = getCheckBoxValue("SiteCheckbox");
 	if(index === -1) return;
 	
-	var remoteSite = document.getElementById("SiteTable").rows[index].cells[0].innerHTML;
+	var remoteSite = document.getElementById("SiteTable").rows[index + 1].cells[1].innerText;
+	console.log(remoteSite);
 	var data = {};
 	data["url"] = remoteSite;
 

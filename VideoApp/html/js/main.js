@@ -11,6 +11,7 @@ window.addEventListener('load', (event) => {
 function loadBaseData(){
 	refreshVideoTable();
 	refreshPlaylistData();
+	refreshSiteData();
 }
 
 /**

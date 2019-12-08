@@ -51,7 +51,7 @@ function drawVideoTable(objArray){
  * POST uoloadVideoURL {[clipUrl : video name] [speaker : speaker in video] [associatedText : text in video] [base64EncodedVideo]} 
  */
 function uploadVideo() {
-	var videoNameInput = document.getElementById("VideoName");
+	var videoNameInput = document.getElementById("videoName");
 	var speakerInput = document.getElementById("videoSpeaker");
 	var textInput = document.getElementById("videoText");
 	var file = document.getElementById("videoFile")
@@ -61,7 +61,7 @@ function uploadVideo() {
 	var text = textInput.value;
 	var data = {};
 	 
-	if((name !== "")&&(speaker !== "")&&(text !== "")&&(file !== NULL)) {
+	if((videoName !== "")&&(speaker !== "")&&(text !== "")&&(file !== NULL)) {
 	 
 		data["clipUrl"] = videoName;
 		data["speaker"]  = speaker;

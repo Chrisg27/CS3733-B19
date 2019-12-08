@@ -4,9 +4,7 @@ function search() {
 	if they both are filled, use both as search criteria
 	get all local and remote videos and search in both for the given criteria */
 	let videos;
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", getVideosURL, true);
-	xhr.send();
+	var xhr.sendRequest("GET", getVideosURL, null);
 	
 	//read the response
     xhr.onloadend = function () {
@@ -69,11 +67,46 @@ function drawSearchTable(objArray) {
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"videoSearchCheckbox\" id=cbsv"+index+"></td>"
-			html += "<td><video id=\"num"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><input type=\"checkbox\" class=\"VideoSearchCheckbox\" id=cbsv"+index+"></td>"
+			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"searchTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 		})
 
 	var existingTable = document.getElementById("SearchTable")
 	existingTable.innerHTML = html
+}
+
+function addSearchToPlaylist(){
+	//get the playlist to add to
+	var list = document.getElementById("SearchVideoPlaylistSelect");
+	var playlist = list.options[list.selectedIndex].text;
+	console.log(playlist);
+	
+	var index = getCheckBoxValue("SearchTable");
+	var videoURL = document.getElementById("SearchTable").rows[index + 1].cells[1].videoUrl;
+	console.log(videoURL);
+	
+	data = {}
+	data["playlistName"] = playlist
+	data["videoUrl"] = videoURL
+	var xhr = sendRequest("POST", addVideoToPlaylistURL, data);
+	
+	//read the response
+    xhr.onloadend = function () {
+    	console.log(xhr);
+ 	    console.log(xhr.request);
+ 	    if (xhr.readyState == XMLHttpRequest.DONE) {
+ 	    	 if (xhr.status == 200) {
+ 	    		 console.log ("XHR:" + xhr.responseText);
+ 	    		 processPlaylistResponse(xhr.responseText);
+ 	    	 } else {
+ 	    		 console.log("actual:" + xhr.responseText)
+ 	    		 var js = JSON.parse(xhr.responseText);
+ 	    		 var err = js["response"];
+ 	    		 alert (err);
+ 	    	 }
+ 	    } else {
+ 	      processPlaylistResponse("N/A");
+ 	    }
+    }
 }

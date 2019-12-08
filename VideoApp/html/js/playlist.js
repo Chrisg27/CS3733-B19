@@ -113,13 +113,13 @@ function drawVideosInPlaylistTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
-			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video data-videourl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"
 		})
 
-	var existingTable = document.getElementById("PlaylistViewTable")
-	existingTable.innerHTML = html
+	var existingTable = document.getElementById("PlaylistViewTable");
+	existingTable.innerHTML = html;
 }
 
 /**
@@ -172,10 +172,6 @@ function createPlaylist(){
  */
 function deletePlaylist() {
 	var index = getCheckBoxValue("PlaylistCheckbox");
-	
-	//TESTING
-	console.log(index);
-	
 	if(index === -1) return;
 	
 	var playlist = document.getElementById("PlaylistTable").rows[index + 1].cells[1].innerText;
@@ -213,8 +209,10 @@ function addVideoToPlaylist(){
 	var playlist = list.options[list.selectedIndex].text
 	console.log(playlist)
 	
-	var index = getCheckBoxValue("VideoTable");
-	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].videoUrl;
+	var index = getCheckBoxValue("VideoTableCheckbox");
+	if(index === -1) return;
+	
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].dataset.videourl;
 	console.log(videoURL);
 	
 	data = {}
@@ -249,7 +247,7 @@ function addVideoToPlaylist(){
 function deleteVideoFromPlaylist() {
 	var index = getCheckBoxValue("PlaylistVideoCheckbox");
 	if(index === -1) return;
-	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].videoUrl;
+	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].dataset.videourl;
 	var data = {};
 	data["playlist"] = currentPlaylistInView;
 	data["videoUrl"] = video;

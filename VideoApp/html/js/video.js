@@ -34,7 +34,7 @@ function drawVideoTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"VideoTableCheckbox\" id=\"VideoTableCheckbox"+index+"\"></td>"
-			html += "<td><video data-videoUrl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video data-videourl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
 			html += "<td>" + cur.associatedText + "</td>"
@@ -42,8 +42,8 @@ function drawVideoTable(objArray){
 			html += "</tr>"
 		})
 
-	var existingTable = document.getElementById("VideoTable")
-	existingTable.innerHTML = html
+	var existingTable = document.getElementById("VideoTable");
+	existingTable.innerHTML = html;
 }
 
 /**
@@ -103,7 +103,7 @@ function deleteVideo() {
 	var index = getCheckboxValue("VideoTableCheckbox");
 	if(index === -1) return;
 	
-	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].videoUrl;
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].dataset.videourl;
 	var data = {};
 	data["clipUrl"] = videoURL;
 	var xhr = sendRequest("POTS", deleteVideoURL, data);

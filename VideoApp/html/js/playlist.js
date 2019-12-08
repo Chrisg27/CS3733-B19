@@ -113,7 +113,7 @@ function drawVideosInPlaylistTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
-			html += "<td><video data-videourl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video original-videourl=\"" + cur.clipURL +"\" id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"
 		})
@@ -212,7 +212,7 @@ function addVideoToPlaylist(){
 	var index = getCheckBoxValue("VideoTableCheckbox");
 	if(index === -1) return;
 	
-	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].dataset.videourl;
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].getAttribute("original-videourl");
 	console.log(videoURL);
 	
 	data = {}
@@ -247,7 +247,7 @@ function addVideoToPlaylist(){
 function deleteVideoFromPlaylist() {
 	var index = getCheckBoxValue("PlaylistVideoCheckbox");
 	if(index === -1) return;
-	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].dataset.videourl;
+	var video = document.getElementById("PlaylistViewTable").rows[index + 1].cells[1].getAttribute("original-videourl");
 	var data = {};
 	data["playlist"] = currentPlaylistInView;
 	data["videoUrl"] = video;

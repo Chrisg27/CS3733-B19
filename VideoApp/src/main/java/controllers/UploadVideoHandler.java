@@ -29,7 +29,7 @@ public class UploadVideoHandler implements RequestHandler<UploadVideoRequest, Up
 	 * 
 	 * @throws Exception 
 	 */
-	boolean uploadVideo(String name, String associatedText, String speaker, boolean isMarked) throws Exception {
+	boolean uploadVideo(String name, String speaker, String associatedText, boolean isMarked) throws Exception {
 		if (logger != null) { logger.log("in uploadVideo"); }
 		VideosDAO dao = new VideosDAO();
 		

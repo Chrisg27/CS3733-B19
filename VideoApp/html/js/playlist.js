@@ -113,12 +113,14 @@ function drawVideosInPlaylistTable(objArray){
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
 			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
-			html += "<td><video id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
+			html += "<td><video id=\"playlistVideo"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"
 		})
 
-	var existingTable = document.getElementById("PlaylistViewTable");
+	var existingTable = document.getElementById("PlaylistVideoTable");
+
+	console.log("html" + html);
 	existingTable.innerHTML = html;
 }
 
@@ -278,10 +280,14 @@ function deleteVideoFromPlaylist() {
  */
 function openPlaylist() {
 	var index = getCheckBoxValue("PlaylistCheckbox");
+
+	console.log(index);
 	if(index === -1) return;
 	
 	var playlist = document.getElementById("PlaylistTable").rows[index + 1].cells[1].innerText;
 	currentPlaylistInView = playlist;
+
+	console.log("playlist: " + currentPlaylistInView);
 	refreshVideosInPlaylist();
 }
 /**
@@ -290,17 +296,20 @@ function openPlaylist() {
 function playPlaylist() {
 	var videos = [];
 	
-	for(var index = document.getElementById("PlaylistViewTable").rows.length - 1; index >= 0; index--){
+	console.log(document.getElementById("PlaylistVideoTable").rows.length - 2);
+
+	for(index = document.getElementById("PlaylistVideoTable").rows.length - 2; index >= 0; index--){
 		videos[index] = document.getElementById("playlistVideo" + index);
 		
 		//if not the last video
-		if(index !== document.getElementById("PlaylistViewTable").rows.length - 1){
-			videos[index].addEventListener("ended", function() {videos[index + 1].play(); });
+		if(index !== document.getElementById("PlaylistVideoTable").rows.length - 2){
+			videos[index].videoArray = videos;
+			videos[index].currentIndex = index;
+			videos[index].addEventListener("ended", function(event){event.currentTarget.videoArray[event.currentTarget.currentIndex + 1].play();});
 		}
 	}
 	
 	if(videos.length > 0){
 		videos[0].play();
 	}
-	
 }

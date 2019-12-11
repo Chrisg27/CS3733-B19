@@ -92,4 +92,29 @@ public class TestPlaylists {
 			fail("didn't work:" + e.getMessage());
 		}
 	}
+	
+	@Test
+	public void testOrder() {
+		try {
+			PlaylistsDAO playlistDAO = new PlaylistsDAO();
+			
+			VideoClip clip1 = new VideoClip("1", " ", " ", false);
+			VideoClip clip2 = new VideoClip("2", " ", " ", false);
+			VideoClip clip3 = new VideoClip("3", " ", " ", false);
+			
+			VideoClip[] clips = {clip3, clip2, clip1};
+			Playlist playlist = new Playlist("1", clips);
+			playlistDAO.addEmptyPlaylist(playlist);
+			playlistDAO.addVideoClipToPlaylist(playlist, clip3);
+			playlistDAO.addVideoClipToPlaylist(playlist, clip2);
+			playlistDAO.addVideoClipToPlaylist(playlist, clip1);
+			
+			playlistDAO.deleteVideoClipFromPlaylist(playlist, clip2);
+			playlist.removeVideo("2");
+			playlistDAO.deletePlaylist(playlist);
+			
+		} catch(Exception e) {
+			fail("didn't work: " + e.getMessage());
+		}
+	}
 }

@@ -41,13 +41,19 @@ public class PlaylistsDAO {
             //get all the clips associated with the playlist
             VideosDAO videoDAO = new VideosDAO();
             ArrayList<VideoClip> playlistClips = new ArrayList<VideoClip>();
+            ArrayList<Integer> orderOfClips = new ArrayList<Integer>();
             
             boolean playlistExists = false;
             while (resultSet.next()) {
             	playlistExists = true;
             	if(!(resultSet.getString("clipURL") == null)) {
-            		if(videoDAO.getVideoClip(resultSet.getString("clipURL")) != null) playlistClips.add(resultSet.getInt("clipOrder") - 1, videoDAO.getVideoClip(resultSet.getString("clipURL")));
-            		else playlistClips.add(resultSet.getInt("clipOrder") - 1, new VideoClip(resultSet.getString("clipURL"), " ", " ", false));
+            		
+            		orderOfClips.add(resultSet.getInt("clipOrder"));
+            		orderOfClips.sort(null);
+            		int indexToAddToo = orderOfClips.indexOf(resultSet.getInt("clipOrder"));
+            		
+            		if(videoDAO.getVideoClip(resultSet.getString("clipURL")) != null) playlistClips.add(indexToAddToo, videoDAO.getVideoClip(resultSet.getString("clipURL")));
+            		else playlistClips.add(indexToAddToo, new VideoClip(resultSet.getString("clipURL"), " ", " ", false));
             	}
             }
             
@@ -197,7 +203,7 @@ public class PlaylistsDAO {
         	Iterator<VideoClip> videoClipIterator = fullPlaylist.getVideoIterator();
         	
         	while(videoClipIterator.hasNext()) {
-        		addVideoClipToPlaylist(playlist, videoClipIterator.next());
+        		addVideoClipToPlaylist(fullPlaylist, videoClipIterator.next());
         	} return true;
         	
     	}catch (Exception e) {

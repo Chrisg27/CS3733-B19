@@ -10,21 +10,28 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import dataBase.VideosDAO;
 import http.RemoteSegmentsResponse;
 import model.VideoClip;
+import model.Segment;
 
 public class ListRemoteSegmentsHandler implements RequestHandler<Object, RemoteSegmentsResponse> {
 
 	LambdaLogger logger;
 	
-	List<VideoClip> getVideos() throws Exception {
+	List<Segment> getVideos() throws Exception {
 		logger.log("in getVideos");
 		VideosDAO dao = new VideosDAO();
 		
 		List<VideoClip> clips = dao.getAllVideos();
-		List<VideoClip> remoteClips = new ArrayList<VideoClip>();
+		List<Segment> remoteClips = new ArrayList<Segment>();
 		
 		for (int i = 0; i < clips.size(); i++) {
 			VideoClip clip = clips.get(i);
-			if(!clip.isMarked()) remoteClips.add(clip);
+			if(!clip.isMarked()) {
+				String url = clip.getClipURL();
+				String character = clip.getSpeaker();
+				String text = clip.getAssociatedText();
+				Segment segment = new Segment(url, character, text);
+				remoteClips.add(segment);
+			}
 		}
 		
 		return remoteClips;
@@ -38,7 +45,7 @@ public class ListRemoteSegmentsHandler implements RequestHandler<Object, RemoteS
         
         RemoteSegmentsResponse response;
         try {
-        	List<VideoClip> list = getVideos();
+        	List<Segment> list = getVideos();
         	response = new RemoteSegmentsResponse(list, 200);
         } catch (Exception e) {
         	response = new RemoteSegmentsResponse(403, e.getMessage());

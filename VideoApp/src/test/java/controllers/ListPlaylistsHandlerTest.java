@@ -9,7 +9,6 @@ import org.junit.Test;
 import com.amazonaws.services.lambda.runtime.Context;
 
 import http.ListPlaylistsResponse;
-import model.Playlist;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.

@@ -36,7 +36,7 @@ function drawRemoteSiteTable(objArray) {
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"SiteCheckbox\" id=\"SiteCheckbox" + index + "\"></td>"
+			html += "<td><input type=\"radio\" name=\"RemoteSite\" class=\"SiteCheckbox\" id=\"SiteCheckbox" + index + "\"></td>"
 			html += "<td>" + cur.siteURL + "</td>"
 			html += "</tr>"
 		})

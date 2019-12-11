@@ -93,7 +93,7 @@ function drawPlaylistTable(objArray){
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"PlaylistCheckbox\" id=\"PlaylistCheckbox" + index + "\"></td>"
+			html += "<td><input type=\"radio\" name=\"Playlist\" class=\"PlaylistCheckbox\" id=\"PlaylistCheckbox" + index + "\"></td>"
 			html += "<td>" + cur.name + "</td>"
 			html += "</tr>"
 		})
@@ -112,7 +112,7 @@ function drawVideosInPlaylistTable(objArray){
 		
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
+			html += "<td><input type=\"radio\" name=\"PlaylistVideo\" class=\"PlaylistVideoCheckbox\" id=\"PlaylistVideoCheckbox" + index + "\"></td>"
 			html += "<td><video id=\"playlistVideo"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "</tr>"

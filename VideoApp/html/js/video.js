@@ -33,7 +33,7 @@ function drawVideoTable(objArray){
 	var html = "<thead><td><b>Select</b></td><td><b>Video</b></td><td><b>Speaker</b></td><td><b>Associated Text</b></td><td><b>Marked?</b></td></thead>"
 		objArray.forEach(function(cur, index){
 			html += "<tr id="+index+">"
-			html += "<td><input type=\"checkbox\" class=\"VideoTableCheckbox\" id=\"VideoTableCheckbox"+index+"\"></td>"
+			html += "<td><input type=\"radio\" name=\"Video\" class=\"VideoTableCheckbox\" id=\"VideoTableCheckbox"+index+"\"></td>"
 			html += "<td><video id=\"videoTable"+index+"\" width-\"320\" height=\"240\" controls>"
 			html += "<source src=" + cur.clipURL + " type=\"video/ogg\"> \"Your browser does not support this video tag\" </video></td>"
 			html += "<td>" + cur.speaker + "</td>"
@@ -137,7 +137,7 @@ function deleteVideo() {
  * @returns
  */
 function markVideo() {
-	/* mark selected video
+	/* mark selected video (true)
 	update display */
 }
 
@@ -146,6 +146,6 @@ function markVideo() {
  * @returns
  */
 function unmarkVideo() {
-	/* unmark selected video
+	/* unmark selected video (false)
 	update display */
 }

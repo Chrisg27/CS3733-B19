@@ -92,5 +92,4 @@ public class TestPlaylists {
 			fail("didn't work:" + e.getMessage());
 		}
 	}
-
 }

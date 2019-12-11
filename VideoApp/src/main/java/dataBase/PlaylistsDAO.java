@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import model.Playlist;
 import model.VideoClip;
@@ -44,7 +45,10 @@ public class PlaylistsDAO {
             boolean playlistExists = false;
             while (resultSet.next()) {
             	playlistExists = true;
-            	if(!(resultSet.getString("clipURL") == null)) playlistClips.add(videoDAO.getVideoClip(resultSet.getString("clipURL")));
+            	if(!(resultSet.getString("clipURL") == null)) {
+            		if(videoDAO.getVideoClip(resultSet.getString("clipURL")) != null) playlistClips.add(resultSet.getInt("clipOrder") - 1, videoDAO.getVideoClip(resultSet.getString("clipURL")));
+            		else playlistClips.add(resultSet.getInt("clipOrder") - 1, new VideoClip(resultSet.getString("clipURL"), " ", " ", false));
+            	}
             }
             
             if(playlistExists) playlist = generatePlaylist(name, playlistClips);
@@ -97,9 +101,10 @@ public class PlaylistsDAO {
                 return false;
             }
 
-            ps = conn.prepareStatement("INSERT INTO Playlists (name, clipURL) values(?, ?);");
+            ps = conn.prepareStatement("INSERT INTO Playlists (name, clipURL, clipOrder) values(?, ?, ?);");
             ps.setString(1, playlist.getName());
             ps.setString(2, null);
+            ps.setString(3, null);
             ps.execute();
             
             return true;
@@ -132,12 +137,14 @@ public class PlaylistsDAO {
             //check to see if an empty playlist exists
             Playlist newPlaylist = getPlaylist(playlist.getName());
             //remove it from the database if it has no VideoClips associated with it
-            if(playlist != null & newPlaylist.getNumberOfClips() == 0) deletePlaylist(playlist);
+            int numberOfClips = newPlaylist.getNumberOfClips();
+            if(playlist != null & numberOfClips == 0) deletePlaylist(playlist);
 
             //add the new VideoClip and same Playlist back into the database
-            ps = conn.prepareStatement("INSERT INTO Playlists (name, clipURL) values(?, ?);");
+            ps = conn.prepareStatement("INSERT INTO Playlists (name, clipURL, clipOrder) values(?, ?, ?);");
             ps.setString(1, playlist.getName());
             ps.setString(2, videoClip.getClipURL());
+            ps.setString(3, Integer.toString(numberOfClips + 1));
             ps.execute();
             
             return true;
@@ -165,11 +172,37 @@ public class PlaylistsDAO {
             //if that was the only video in the playlist, add it back as empty
             if(!hasPlaylist(playlist)) addEmptyPlaylist(playlist);
             
+            fixOrderNumbers(playlist);
             return (numAffected == 1);
 
         } catch (Exception e) {
             throw new Exception("Failed to delete video from playlist: " + e.getMessage());
         }
+    }
+    
+    /**
+     * Deletes a playlist from the database and then adds it back in. Used to update the order tag when a video from a playlist is removed
+     * @param playlist playlist to reorder
+     * @return true is reorder process was possible
+     * @throws Exception
+     */
+    private boolean fixOrderNumbers(Playlist playlist) throws Exception {
+    	try {
+        	Playlist fullPlaylist = getPlaylist(playlist.getName());
+        	if(fullPlaylist.getNumberOfClips() == 0) return true;
+        	
+        	deletePlaylist(playlist);
+        	addEmptyPlaylist(playlist);
+        	
+        	Iterator<VideoClip> videoClipIterator = fullPlaylist.getVideoIterator();
+        	
+        	while(videoClipIterator.hasNext()) {
+        		addVideoClipToPlaylist(playlist, videoClipIterator.next());
+        	} return true;
+        	
+    	}catch (Exception e) {
+    		throw new Exception("Failed to re oder video clips: " + e.getMessage());
+    	}
     }
     
     /**
@@ -204,7 +237,7 @@ public class PlaylistsDAO {
         
         try {
             Statement statement = conn.createStatement();
-            String query = "SELECT * FROM Playlists";
+            String query = "SELECT * FROM Playlists;";
             ResultSet resultSet = statement.executeQuery(query);
 
             //get the names of all the unique playlists

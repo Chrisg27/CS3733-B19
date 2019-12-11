@@ -15,3 +15,5 @@ var getVideosURL = baseURL + "videos"     // GET
 var uploadVideoURL = baseURL + "videos" //POST
 var deleteVideoURL = baseURL + "video" //POST
 var getPublicVideosURL = baseURL + "video" //GET
+var markVideoURL = baseURL + "markVideo" //POST
+var unmarkVideoURL = baseURL + "unmarkVideo" //POST

@@ -139,6 +139,33 @@ function deleteVideo() {
 function markVideo() {
 	/* mark selected video (true)
 	update display */
+	var index = getCheckBoxValue("VideoTableCheckbox");
+	if(index === -1) return;
+	
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
+	var data = {};
+	data["clipUrl"] = videoURL;
+	data["mark"] = true;
+	var xhr = sendRequest("POST", markVideoURL, data);
+	
+	//Read response 
+	xhr.onloadend = function () {
+		console.log(xhr);
+		console.log(xhr.request);
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			if (xhr.status == 200) {
+				console.log ("XHR:" + xhr.responseText);
+				processVideoResponse(xhr.responseText);
+			} else {
+				console.log("actual:" + xhr.responseText)
+				var js = JSON.parse(xhr.responseText);
+				var err = js["error"];
+				alert (err);
+			}
+		} else {
+			processVideoResponse("N/A");
+		}
+	};
 }
 
 /**
@@ -148,4 +175,31 @@ function markVideo() {
 function unmarkVideo() {
 	/* unmark selected video (false)
 	update display */
+	var index = getCheckBoxValue("VideoTableCheckbox");
+	if(index === -1) return;
+	
+	var videoURL = document.getElementById("VideoTable").rows[index + 1].cells[1].getElementsByTagName("source")["0"]["src"];
+	var data = {};
+	data["clipUrl"] = videoURL;
+	data["mark"] = false;
+	var xhr = sendRequest("POST", markVideoURL, data);
+	
+	//Read response 
+	xhr.onloadend = function () {
+		console.log(xhr);
+		console.log(xhr.request);
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			if (xhr.status == 200) {
+				console.log ("XHR:" + xhr.responseText);
+				processVideoResponse(xhr.responseText);
+			} else {
+				console.log("actual:" + xhr.responseText)
+				var js = JSON.parse(xhr.responseText);
+				var err = js["error"];
+				alert (err);
+			}
+		} else {
+			processVideoResponse("N/A");
+		}
+	};
 }

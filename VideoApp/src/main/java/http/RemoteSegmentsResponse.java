@@ -16,10 +16,10 @@ public class RemoteSegmentsResponse {
 		this.error = "";
 	}
 	
-	public RemoteSegmentsResponse (int code, String errorMessage) {
-		this.segments = new ArrayList<Segment>();
+	public RemoteSegmentsResponse (int code, String error) {
 		this.statusCode = code;
-		this.error = errorMessage;
+		this.error = error;
+		segments = new ArrayList<Segment>();
 	}
 
 	public String toString() {

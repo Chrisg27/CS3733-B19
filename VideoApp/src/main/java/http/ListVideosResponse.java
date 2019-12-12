@@ -17,9 +17,9 @@ public class ListVideosResponse {
 	}
 	
 	public ListVideosResponse(int code, String error) {
-		list = new ArrayList<VideoClip>();
 		this.statusCode = code;
 		this.error = error;
+		list = new ArrayList<VideoClip>();
 	}
 	
 	public String toString() {

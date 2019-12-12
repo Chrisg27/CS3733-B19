@@ -30,6 +30,7 @@ public class CreatePlaylistHandlerTest extends LambdaTest {
 		//delete test playlist
 		PlaylistResponse deleteResponse = new DeletePlaylistHandler().handleRequest(pr, createContext("delete"));
 		Assert.assertEquals("LambdaTestPlaylist", deleteResponse.response);
+		
 	}
 	
 }

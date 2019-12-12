@@ -11,9 +11,6 @@ public class PlaylistVideoRequest {
 	public String getVideoUrl() { return videoUrl; }
 	public void setVideoUrl(String video) { this.videoUrl = video; }
 	
-	public PlaylistVideoRequest() {
-	}
-	
 	public PlaylistVideoRequest(String playlist, String video) {
 		this.playlist = playlist;
 		this.videoUrl = video;

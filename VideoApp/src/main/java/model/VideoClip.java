@@ -9,13 +9,6 @@ public class VideoClip {
 	
 	/**
 	 * Creates a new VideoClip
-	 */
-	public VideoClip(){
-		
-	}
-	
-	/**
-	 * Creates a new VideoClip
 	 * @param clipURL the URL of the clips location in a S3 bucket
 	 * @param associatedText the words spoken in the clip
 	 * @param speaker the character who speaks the line
@@ -57,21 +50,6 @@ public class VideoClip {
 	 */
 	public boolean isMarked() {
 		return isMarked;
-	}
-	
-	/**
-	 * Marks a video clip for private view only
-	 */
-	
-	public void mark() {
-		isMarked = true;
-	}
-	
-	/**
-	 * Unmarks a video clip
-	 */
-	public void unmark() {
-		isMarked = false;
 	}
 	
 	/**

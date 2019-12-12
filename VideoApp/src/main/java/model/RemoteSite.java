@@ -6,13 +6,6 @@ public class RemoteSite {
 	
 	/**
 	 * Creates a new RemoteSite
-	 */
-	public RemoteSite() {
-		
-	}
-	
-	/**
-	 * Creates a new RemoteSite
 	 * @param URL the URL of the site
 	 */
 	public RemoteSite(String URL){

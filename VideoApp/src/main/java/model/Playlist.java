@@ -11,13 +11,6 @@ public class Playlist {
 	
 	/**
 	 * Creates a new Playlist
-	 */
-	public Playlist() {
-		
-	}
-	
-	/**
-	 * Creates a new Playlist
 	 * @param name the name of the playlist
 	 */
 	public Playlist(String name) {

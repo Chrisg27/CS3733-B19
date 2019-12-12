@@ -18,9 +18,6 @@ public class UploadVideoRequest {
 	public String getBase64EncodedVideo() { return this.base64EncodedVideo; }
 	public void setBase64EncodedVideo(String s) { this.base64EncodedVideo = s; }
 	
-	public UploadVideoRequest() {
-	}
-	
 	public UploadVideoRequest (String n, String s, String d, String encoding) {
 		this.clipUrl = n;
 		this.speaker = s;

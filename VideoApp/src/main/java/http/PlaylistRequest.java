@@ -7,9 +7,6 @@ public class PlaylistRequest {
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
 	
-	public PlaylistRequest() {
-	}
-	
 	public PlaylistRequest(String name) {
 		this.name = name;
 	}

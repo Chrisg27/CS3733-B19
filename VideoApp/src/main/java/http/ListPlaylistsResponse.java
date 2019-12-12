@@ -17,9 +17,9 @@ public class ListPlaylistsResponse {
 	}
 	
 	public ListPlaylistsResponse(int code, String error) {
-		list = new ArrayList<Playlist>();
 		this.statusCode = code;
 		this.error = error;
+		list = new ArrayList<Playlist>();
 	}
 	
 	public String toString() {

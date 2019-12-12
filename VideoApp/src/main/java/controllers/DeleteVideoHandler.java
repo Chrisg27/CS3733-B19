@@ -97,7 +97,7 @@ public class DeleteVideoHandler implements RequestHandler<DeleteVideoRequest, De
 				response = new DeleteVideoResponse("Unable to delete video " + req.getClipUrl(), 422);
 			}
 		} catch (Exception e) {
-			response = new DeleteVideoResponse("Unable to delete video: " + req.getClipUrl() + "(" + e.getMessage() + ")", 403);
+			response = new DeleteVideoResponse("Unable to delete video: " + req.getClipUrl() + "(" + e.getMessage() + ")", 400);
 		}
 		
 		return response;

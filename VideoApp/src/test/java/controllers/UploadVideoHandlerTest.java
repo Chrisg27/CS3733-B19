@@ -56,7 +56,7 @@ public class UploadVideoHandlerTest extends LambdaTest{
     @Test
     public void testUploadVideoError422() {
     	//get path of test video
-    	String path = "failedTest";
+    	String path = "src/test/resources/clip1.ogg";
     	File file = new File(path);
     	String absolutePath = file.getAbsolutePath();
     	System.out.println(absolutePath);
@@ -76,11 +76,14 @@ public class UploadVideoHandlerTest extends LambdaTest{
     	byte[] encoding = java.util.Base64.getEncoder().encode(bytesArray);
     	UploadVideoRequest req = new UploadVideoRequest("failedTest", "", "", new String(encoding));
     	UploadVideoResponse res = new UploadVideoHandler().handleRequest(req, createContext("UploadVideoHandler"));
-    	Assert.assertTrue(res.httpCode == 422);
+    	
+    	//duplicate request and response
+    	UploadVideoRequest dupReq = new UploadVideoRequest("failedTest", "", "", new String(encoding));
+    	UploadVideoResponse dupRes = new UploadVideoHandler().handleRequest(req, createContext("UploadVideoHandler"));
+    	Assert.assertTrue(dupRes.httpCode == 422);
     	
     	//delete failedTest
     	DeleteVideoRequest testReq = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/failedTest");
     	DeleteVideoResponse testRes = new DeleteVideoHandler().handleRequest(testReq, createContext("DeleteVideoHandler"));
-    	Assert.assertEquals("failedTest", res.response);
     }
 }

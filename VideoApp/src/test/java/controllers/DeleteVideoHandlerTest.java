@@ -85,11 +85,5 @@ public class DeleteVideoHandlerTest extends LambdaTest{
     	DeleteVideoResponse res = new DeleteVideoHandler().handleRequest(req, createContext("delete"));
     	Assert.assertTrue(res.httpCode == 422);
     	
-
-    	req = new DeleteVideoRequest("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg");
-    	res = new DeleteVideoHandler().handleRequest(req, createContext("delete"));
-    	Assert.assertEquals("https://princess3733.s3.amazonaws.com/videos/LambdaTestUploadVideo.ogg", res.response);
-    	Assert.assertTrue(res.httpCode == 200);
-    	
     }
 }

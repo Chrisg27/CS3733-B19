@@ -27,7 +27,7 @@ public class MarkVideoHandler implements RequestHandler<MarkVideoRequest, MarkVi
 				return true;
 			} else { //otherwise remove from database and add again with mark changed
 				dao.deleteVideoClip(exist);
-				return dao.addVideoClip(new VideoClip(url, speaker, associatedText, mark));
+				return dao.addVideoClip(new VideoClip(url, associatedText, speaker, mark));
 			}
 		} else { //if it doesn't exist, return false
 			return false;

@@ -33,7 +33,6 @@ public class ListRemoteSegmentsHandler implements RequestHandler<Object, RemoteS
 				remoteClips.add(segment);
 			}
 		}
-		
 		return remoteClips;
 		
 	}
@@ -45,7 +44,7 @@ public class ListRemoteSegmentsHandler implements RequestHandler<Object, RemoteS
         
         RemoteSegmentsResponse response;
         try {
-        	List<Segment> list = getVideos();
+        	List<Segment> list = getVideos();	
         	response = new RemoteSegmentsResponse(list, 200);
         } catch (Exception e) {
         	response = new RemoteSegmentsResponse(403, e.getMessage());

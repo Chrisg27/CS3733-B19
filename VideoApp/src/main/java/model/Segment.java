@@ -10,20 +10,4 @@ public class Segment {
 		this.character = character;
 		this.text = text;
 	}
-	
-	public String getUrl() {
-		return this.url;
-	}
-	
-	public String getCharacter() {
-		return character;
-	}
-	
-	public String getText() {
-		return text;
-	}
-	
-	public String toString() {
-		return url + " " + character + " " + text;
-	}
 }

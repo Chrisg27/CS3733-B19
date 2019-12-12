@@ -25,7 +25,7 @@ public class ListRemoteSegmentsHandler implements RequestHandler<Object, RemoteS
 		
 		for (int i = 0; i < clips.size(); i++) {
 			VideoClip clip = clips.get(i);
-			if(!clip.isMarked()) {
+			if(clip.isMarked() == false) {
 				String url = clip.getClipURL();
 				String character = clip.getSpeaker();
 				String text = clip.getAssociatedText();

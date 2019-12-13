@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import model.Playlist;
@@ -49,7 +50,8 @@ public class PlaylistsDAO {
             	if(!(resultSet.getString("clipURL") == null)) {
             		
             		orderOfClips.add(resultSet.getInt("clipOrder"));
-            		orderOfClips.sort(null);
+            		Collections.sort(orderOfClips);
+            		
             		int indexToAddToo = orderOfClips.indexOf(resultSet.getInt("clipOrder"));
             		
             		if(videoDAO.getVideoClip(resultSet.getString("clipURL")) != null) playlistClips.add(indexToAddToo, videoDAO.getVideoClip(resultSet.getString("clipURL")));

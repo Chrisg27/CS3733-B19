@@ -7,6 +7,10 @@ public class DeleteVideoRequest {
 	public String getClipUrl() { return clipUrl; }
 	public void setClipUrl(String clipUrl) { this.clipUrl = clipUrl; }
 
+	public DeleteVideoRequest() {
+		
+	}
+	
 	public DeleteVideoRequest(String clipUrl) {
 		this.clipUrl = clipUrl;
 	}

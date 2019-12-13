@@ -7,6 +7,10 @@ public class RegisterSiteRequest {
 	public String getUrl() { return url; }
 	public void setUrl(String url) { this.url = url; }
 	
+	public RegisterSiteRequest() {
+		
+	}
+	
 	public RegisterSiteRequest(String url) {
 		this.url = url;
 	}

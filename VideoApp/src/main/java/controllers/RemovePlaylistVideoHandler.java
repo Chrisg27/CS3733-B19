@@ -18,13 +18,11 @@ public class RemovePlaylistVideoHandler implements RequestHandler<PlaylistVideoR
 	boolean removeVideo(String playlistName, String videoUrl) throws Exception {
 		if (logger != null) { logger.log("in appendVideo"); }
 		PlaylistsDAO daoPlaylist = new PlaylistsDAO();
-		VideosDAO daoVideo = new VideosDAO();
 		
 		Playlist existPlaylist = daoPlaylist.getPlaylist(playlistName);
-		VideoClip existVideo = daoVideo.getVideoClip(videoUrl);
 		
-		if (existPlaylist != null && existVideo != null) {
-			return daoPlaylist.deleteVideoClipFromPlaylist(existPlaylist, existVideo);
+		if (existPlaylist != null) {
+			return daoPlaylist.deleteVideoClipFromPlaylist(existPlaylist, new VideoClip(videoUrl, "", "", false));
 		}
 		else {
 			return false;

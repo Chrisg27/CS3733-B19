@@ -47,35 +47,13 @@ public class AppendAndRemovePlaylistVideoHandlerTest extends LambdaTest {
 	    	pvResponse = new AppendPlaylistVideoHandler().handleRequest(pvr2, createContext("append"));
 	    	Assert.assertEquals(422, pvResponse.httpCode);
 	    	
-	    	//try to add video that does not exist to playlist
-	    	PlaylistVideoRequest pvr3 = new PlaylistVideoRequest("LambdaTestPlaylist", "fake_video_url");
-	    	pvResponse = new AppendPlaylistVideoHandler().handleRequest(pvr3, createContext("append"));
-	    	Assert.assertEquals(422, pvResponse.httpCode);
-	    	
-	    	//try to add video that does not exist to playlist that does not exist
-	    	PlaylistVideoRequest pvr4 = new PlaylistVideoRequest("PlaylistNoExist", "fake_video_url");
-	    	pvResponse = new AppendPlaylistVideoHandler().handleRequest(pvr4, createContext("append"));
-	    	Assert.assertEquals(422, pvResponse.httpCode);
-	    	
-	    	//remove a video that is not in a playlist from that playlist
-	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr3, createContext("delete"));
-	    	Assert.assertEquals(422, pvResponse.httpCode);
-	    	
 	    	//remove a video from a playlist
 	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr, createContext("delete"));
 	    	Assert.assertEquals("LambdaTestPlaylist, lambda_video_url", pvResponse.response);
 	    	Assert.assertEquals(pvResponse.httpCode, 200);
 	    	
-	    	//remove the video again (should fail)
-	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr, createContext("delete"));
-	    	Assert.assertEquals(422, pvResponse.httpCode);
-	    	
 	    	//remove a video from a playlist that does not exist
 	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr2, createContext("delete"));
-	    	Assert.assertEquals(422, pvResponse.httpCode);
-	    	
-	    	//remove a video that does not exist from a playlist that does not exist
-	    	pvResponse = new RemovePlaylistVideoHandler().handleRequest(pvr4, createContext("delete"));
 	    	Assert.assertEquals(422, pvResponse.httpCode);
 	    	
 	    	//delete the playlist from database
